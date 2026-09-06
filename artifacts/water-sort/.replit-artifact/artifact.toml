@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Water Sort Puzzle"
+version = "1.0.0"
+id = "artifacts/water-sort"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25859
+
+[services.development]
+run = "pnpm --filter @workspace/water-sort run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/water-sort", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/water-sort/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25859"
+BASE_PATH = "/"

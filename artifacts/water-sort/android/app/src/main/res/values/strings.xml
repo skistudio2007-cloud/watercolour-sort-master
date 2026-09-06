@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Colour Water Sort: Puzzle Game</string>
+    <string name="title_activity_main">Colour Water Sort: Puzzle Game</string>
+    <string name="package_name">com.pizzle.colorsort.game2026</string>
+    <string name="custom_url_scheme">com.pizzle.colorsort.game2026</string>
+</resources>
