@@ -5,6 +5,7 @@ import { addHints, addUndos } from "@/lib/inventoryManager";
 import { purchaseProduct } from "@/lib/microsoftStoreIAP";
 import { Haptics } from "@/lib/hapticManager";
 import { SFX } from "@/lib/soundManager";
+import ParentalGateModal from "./ParentalGateModal";
 
 interface PurchasePowerUpModalProps {
   type: "hint" | "undo";
@@ -19,6 +20,7 @@ export default function PurchasePowerUpModal({
 }: PurchasePowerUpModalProps) {
   const [purchasingPack, setPurchasingPack] = useState<number | null>(null);
   const [successPack, setSuccessPack] = useState<number | null>(null);
+  const [pendingPurchase, setPendingPurchase] = useState<{ quantity: number; price: number } | null>(null);
 
   const isHint = type === "hint";
   const title = isHint ? "Out of Hints!" : "Out of Undos!";
@@ -29,9 +31,15 @@ export default function PurchasePowerUpModal({
     <Undo2 className="w-9 h-9 text-sky-400" />
   );
 
-  const handleBuy = async (quantity: number, price: number) => {
+  const onSelectPack = (quantity: number, price: number) => {
     Haptics.tap();
     SFX.tap();
+    // Open parental math gate before charging real payment
+    setPendingPurchase({ quantity, price });
+  };
+
+  const executeConfirmedBuy = async (quantity: number, price: number) => {
+    setPendingPurchase(null);
     setPurchasingPack(quantity);
 
     const prodId = isHint
@@ -115,7 +123,7 @@ export default function PurchasePowerUpModal({
             <motion.div
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleBuy(1, 0.10)}
+              onClick={() => onSelectPack(1, 0.10)}
               className="w-full p-3.5 rounded-2xl bg-secondary/60 hover:bg-secondary border border-border flex items-center justify-between cursor-pointer transition-all"
             >
               <div className="flex items-center gap-3 text-left">
@@ -148,7 +156,7 @@ export default function PurchasePowerUpModal({
             <motion.div
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleBuy(10, 0.99)}
+              onClick={() => onSelectPack(10, 0.99)}
               className="w-full p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/15 to-yellow-500/10 border-2 border-amber-400/50 flex items-center justify-between cursor-pointer relative shadow-md transition-all"
             >
               <div className="absolute -top-2.5 right-4 px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 font-black text-[9px] uppercase tracking-wider shadow">
@@ -188,6 +196,19 @@ export default function PurchasePowerUpModal({
           </span>
         </motion.div>
       </div>
+
+      {/* Parental Math Verification Modal */}
+      <ParentalGateModal
+        isOpen={pendingPurchase !== null}
+        onSuccess={() => {
+          if (pendingPurchase) {
+            executeConfirmedBuy(pendingPurchase.quantity, pendingPurchase.price);
+          }
+        }}
+        onCancel={() => setPendingPurchase(null)}
+        title="Parental Verification"
+        subtitle={`Please solve this math question before purchasing ${pendingPurchase?.quantity} ${itemName}${pendingPurchase?.quantity === 1 ? "" : "s"}:`}
+      />
     </AnimatePresence>
   );
 }

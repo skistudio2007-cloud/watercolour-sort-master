@@ -5,6 +5,7 @@ import { Haptics } from "@/lib/hapticManager";
 import { SFX } from "@/lib/soundManager";
 import { t } from "@/lib/localization";
 import { loadPlayerProfile, savePlayerProfile } from "@/lib/leaderboardManager";
+import ParentalGateModal from "./ParentalGateModal";
 
 import { purchaseProduct, restorePurchases } from "@/lib/microsoftStoreIAP";
 
@@ -21,8 +22,17 @@ export default function PremiumModal({ onClose }: PremiumModalProps) {
     }
   });
   const [restoredMsg, setRestoredMsg] = useState("");
+  const [showParentalGate, setShowParentalGate] = useState(false);
 
-  const handlePurchase = async () => {
+  const handlePurchase = () => {
+    if (purchased) return;
+    Haptics.tap();
+    SFX.tap();
+    setShowParentalGate(true);
+  };
+
+  const executeConfirmedPurchase = async () => {
+    setShowParentalGate(false);
     const res = await purchaseProduct("vip_master_pass");
     if (res.success) {
       Haptics.levelComplete();
@@ -149,6 +159,15 @@ export default function PremiumModal({ onClose }: PremiumModalProps) {
           {t("restore_purchases")}
         </button>
       </motion.div>
+
+      {/* Parental Gate Modal for VIP Pass */}
+      <ParentalGateModal
+        isOpen={showParentalGate}
+        onSuccess={executeConfirmedPurchase}
+        onCancel={() => setShowParentalGate(false)}
+        title="Parental Verification"
+        subtitle="Please solve this quick math question before unlocking VIP Master Pass ($2.99):"
+      />
     </motion.div>
   );
 }

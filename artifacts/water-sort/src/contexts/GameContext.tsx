@@ -492,9 +492,9 @@ function reducer(
 
         hintMove: hint,
 
-        // Hint immediately visible
+        // Hint stays active until move is made (or up to 15 seconds)
         hintExpiry:
-          Date.now() + 2500,
+          Date.now() + 15000,
 
         hintsUsedThisLevel:
           state.hintsUsedThisLevel + 1,

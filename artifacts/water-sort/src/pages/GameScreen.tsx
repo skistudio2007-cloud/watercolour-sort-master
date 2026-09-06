@@ -151,6 +151,13 @@ export default function GameScreen() {
   };
 
   const onHintClick = () => {
+    // If a hint is already actively showing on screen, re-highlight without consuming an extra hint
+    if (state.hintMove) {
+      Haptics.hint();
+      SFX.hint();
+      return;
+    }
+
     Haptics.hint();
     if (useHintConsumable()) {
       handleHint();
@@ -259,22 +266,30 @@ export default function GameScreen() {
             </span>
           </button>
 
-          {/* Hint with Inventory Count / Buy $0.10 badge */}
+          {/* Hint with Inventory Count / Active state / Buy badge */}
           <button
             onClick={onHintClick}
             disabled={state.gameState.isComplete || state.isAnimating}
-            className="flex-1 py-2.5 px-3 rounded-2xl flex flex-col items-center justify-center text-primary hover:bg-secondary/70 active:scale-95 transition-all disabled:opacity-40 relative cursor-pointer"
+            className={`flex-1 py-2.5 px-3 rounded-2xl flex flex-col items-center justify-center transition-all disabled:opacity-40 relative cursor-pointer ${
+              state.hintMove
+                ? "bg-amber-500/15 border border-amber-400/40 text-amber-500 shadow-sm"
+                : "text-primary hover:bg-secondary/70 active:scale-95"
+            }`}
           >
-            <Lightbulb className="w-5 h-5 mb-1 text-primary" />
-            <span className="text-[10px] font-black tracking-tight">{t("hint")}</span>
+            <Lightbulb className={`w-5 h-5 mb-1 ${state.hintMove ? "text-amber-400 fill-amber-400 animate-pulse" : "text-primary"}`} />
+            <span className="text-[10px] font-black tracking-tight">
+              {state.hintMove ? "Active Hint" : t("hint")}
+            </span>
             <span
               className={`text-[8.5px] font-mono font-bold mt-0.5 px-2 py-0.2 rounded-full ${
-                hintsLeft > 0
+                state.hintMove
+                  ? "text-amber-400 bg-amber-400/20 font-black"
+                  : hintsLeft > 0
                   ? "text-emerald-500 bg-emerald-500/15"
                   : "text-amber-500 bg-amber-500/15"
               }`}
             >
-              {hintsLeft > 0 ? `${hintsLeft} left` : "+ Buy $0.10"}
+              {state.hintMove ? "Move Shown" : hintsLeft > 0 ? `${hintsLeft} left` : "+ Buy $0.10"}
             </span>
           </button>
         </div>

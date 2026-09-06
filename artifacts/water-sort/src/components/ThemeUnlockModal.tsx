@@ -6,6 +6,7 @@ import { purchaseProduct } from "@/lib/microsoftStoreIAP";
 import { useSettings } from "@/contexts/SettingsContext";
 import { Haptics } from "@/lib/hapticManager";
 import { SFX } from "@/lib/soundManager";
+import ParentalGateModal from "./ParentalGateModal";
 
 interface ThemeUnlockModalProps {
   background: {
@@ -27,12 +28,19 @@ export default function ThemeUnlockModal({
   const { settings } = useSettings();
   const [isProcessing, setIsProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showParentalGate, setShowParentalGate] = useState(false);
 
   if (!background) return null;
 
-  const handlePurchase = async () => {
+  const handlePurchase = () => {
+    if (isProcessing || success) return;
     Haptics.tap();
     SFX.tap();
+    setShowParentalGate(true);
+  };
+
+  const executeConfirmedPurchase = async () => {
+    setShowParentalGate(false);
     setIsProcessing(true);
 
     const res = await purchaseProduct(`bg_theme_${background.id}`);
@@ -134,6 +142,15 @@ export default function ThemeUnlockModal({
           </motion.button>
         </motion.div>
       </div>
+
+      {/* Parental Math Verification Modal */}
+      <ParentalGateModal
+        isOpen={showParentalGate}
+        onSuccess={executeConfirmedPurchase}
+        onCancel={() => setShowParentalGate(false)}
+        title="Parental Verification"
+        subtitle={`Please solve this math question before unlocking the ${background.name} theme ($0.49):`}
+      />
     </AnimatePresence>
   );
 }

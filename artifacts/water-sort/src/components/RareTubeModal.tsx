@@ -6,6 +6,7 @@ import { purchaseProduct } from "@/lib/microsoftStoreIAP";
 import BottlePreview from "@/components/BottlePreview";
 import { Haptics } from "@/lib/hapticManager";
 import { SFX } from "@/lib/soundManager";
+import ParentalGateModal from "./ParentalGateModal";
 
 interface RareTubeModalProps {
   bottle: {
@@ -24,12 +25,19 @@ export default function RareTubeModal({
 }: RareTubeModalProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showParentalGate, setShowParentalGate] = useState(false);
 
   if (!bottle) return null;
 
-  const handlePurchase = async () => {
+  const handlePurchase = () => {
+    if (isProcessing || success) return;
     Haptics.tap();
     SFX.tap();
+    setShowParentalGate(true);
+  };
+
+  const executeConfirmedPurchase = async () => {
+    setShowParentalGate(false);
     setIsProcessing(true);
 
     const res = await purchaseProduct(`bottle_skin_${bottle.id}`);
@@ -147,6 +155,15 @@ export default function RareTubeModal({
           </motion.button>
         </motion.div>
       </div>
+
+      {/* Parental Math Verification Modal */}
+      <ParentalGateModal
+        isOpen={showParentalGate}
+        onSuccess={executeConfirmedPurchase}
+        onCancel={() => setShowParentalGate(false)}
+        title="Parental Verification"
+        subtitle={`Please solve this math question before unlocking the ${bottle.label} laboratory tube ($0.99):`}
+      />
     </AnimatePresence>
   );
 }
