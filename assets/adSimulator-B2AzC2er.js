@@ -1,0 +1,1 @@
+const t=new Set;let n=null;function u(e){return t.add(e),n&&e(n),()=>{t.delete(e)}}function c(e){n=e,t.forEach(l=>l(e))}function d(e){if(n){const l=n;n=null,t.forEach(o=>o(null)),l.onClose(e)}}export{d as closeSimulatedAd,u as subscribeAdModal,c as triggerSimulatedAd};
