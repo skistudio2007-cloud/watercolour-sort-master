@@ -17,7 +17,6 @@ import {
   FileText,
 } from "lucide-react";
 import PrivacyPolicyModal from "@/components/PrivacyPolicyModal";
-import { isUsingTestAds, setUseTestAds } from "@/admob";
 import {
   SUPPORTED_LANGUAGES,
   Language,
@@ -56,7 +55,6 @@ export default function SettingsScreen() {
   const [activeTheme, setActiveThemeState] = useState<ThemeStyle>(getSavedTheme);
   const [restoreMessage, setRestoreMessage] = useState("");
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
-  const [testAdsEnabled, setTestAdsEnabled] = useState<boolean>(isUsingTestAds);
 
   const handleLangChange = (lang: Language) => {
     Haptics.tap();
@@ -266,32 +264,6 @@ export default function SettingsScreen() {
             >
               <FileText className="w-4 h-4 text-primary" /> Privacy Policy
             </button>
-            <div className="flex items-center justify-between p-1 pt-2 border-t border-border/50">
-              <div className="flex flex-col">
-                <span className="font-bold text-xs text-foreground">Google Test Ads</span>
-                <span className="text-[10px] text-muted-foreground">
-                  {testAdsEnabled ? "Google sample test ad units" : "Live production ad units"}
-                </span>
-              </div>
-              <button
-                onClick={() => {
-                  Haptics.tap();
-                  SFX.tap();
-                  const next = !testAdsEnabled;
-                  setTestAdsEnabled(next);
-                  setUseTestAds(next);
-                }}
-                className={`w-11 h-6 rounded-full transition-colors relative flex items-center px-0.5 ${
-                  testAdsEnabled ? "bg-amber-500" : "bg-secondary"
-                }`}
-              >
-                <motion.div
-                  className="w-5 h-5 bg-white rounded-full shadow-md"
-                  animate={{ x: testAdsEnabled ? 20 : 0 }}
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                />
-              </button>
-            </div>
           </div>
         </SettingsGroup>
 

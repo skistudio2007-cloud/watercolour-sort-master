@@ -122,24 +122,9 @@ export async function showInterstitialAd(): Promise<boolean> {
 
   const isBrowser = typeof window !== "undefined" && !(window as any).Capacitor?.isNativePlatform?.();
   if (isBrowser) {
-    console.log("[AdMob] Launching interactive AdMob interstitial simulator on desktop/web...");
-    try {
-      const { triggerSimulatedAd } = await import("@/lib/adSimulator");
-      return await new Promise<boolean>((resolve) => {
-        triggerSimulatedAd({
-          type: "interstitial",
-          adUnitId: adId,
-          onClose: (completed) => {
-            console.log("[AdMob] Interstitial simulator closed");
-            interstitialAdInProgress = false;
-            resolve(completed);
-          },
-        });
-      });
-    } catch {
-      interstitialAdInProgress = false;
-      return false;
-    }
+    // Zero Google Ads displayed on Windows / Desktop / Web
+    interstitialAdInProgress = false;
+    return true;
   }
 
   try {
@@ -164,7 +149,7 @@ export async function showInterstitialAd(): Promise<boolean> {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// REWARDED VIDEO AD (Supports Google Test Ads)
+// REWARDED VIDEO AD (Supports Google Test Ads on Native)
 // ─────────────────────────────────────────────────────────────────────────────
 
 export async function showRewardedAd(): Promise<boolean> {
@@ -176,29 +161,12 @@ export async function showRewardedAd(): Promise<boolean> {
   rewardedAdInProgress = true;
   const adId = getRewardedId();
 
-  // If running in browser or desktop environment (outside native Android/iOS),
-  // immediately show the visual Google AdMob Test Ad simulator!
+  // On Windows / Desktop / Web: Zero Google Ads displayed, grant reward directly
   const isBrowser = typeof window !== "undefined" && !(window as any).Capacitor?.isNativePlatform?.();
   if (isBrowser) {
-    console.log("[AdMob] Launching interactive AdMob simulator on desktop/web...");
-    try {
-      const { triggerSimulatedAd } = await import("@/lib/adSimulator");
-      return await new Promise<boolean>((resolve) => {
-        triggerSimulatedAd({
-          type: "rewarded",
-          adUnitId: adId,
-          onClose: (completed) => {
-            console.log("[AdMob] Simulator closed with status:", completed);
-            rewardedAdInProgress = false;
-            resolve(completed);
-          },
-        });
-      });
-    } catch (err) {
-      console.error("[AdMob] Error launching simulator:", err);
-      rewardedAdInProgress = false;
-      return false;
-    }
+    console.log("[AdMob] Windows/Web environment - granting reward directly with zero Google Ads");
+    rewardedAdInProgress = false;
+    return true;
   }
 
   // Running on Native Mobile Platform (Android / iOS)
@@ -235,6 +203,11 @@ export async function showRewardedAd(): Promise<boolean> {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export async function showBannerAd(): Promise<boolean> {
+  const isBrowser = typeof window !== "undefined" && !(window as any).Capacitor?.isNativePlatform?.();
+  if (isBrowser) {
+    return false;
+  }
+
   const adId = getBannerId();
 
   try {

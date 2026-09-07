@@ -35,9 +35,27 @@
       "purpose": "any"
     },
     {
+      "src": "./icons/Square44x44Logo.png",
+      "type": "image/png",
+      "sizes": "44x44",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/Square71x71Logo.png",
+      "type": "image/png",
+      "sizes": "71x71",
+      "purpose": "any"
+    },
+    {
       "src": "./icons/Square150x150Logo.png",
       "type": "image/png",
       "sizes": "150x150",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/Wide310x150Logo.png",
+      "type": "image/png",
+      "sizes": "310x150",
       "purpose": "any"
     },
     {
@@ -50,6 +68,12 @@
       "src": "./icons/StoreLogo.png",
       "type": "image/png",
       "sizes": "50x50",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/SplashScreen.png",
+      "type": "image/png",
+      "sizes": "620x300",
       "purpose": "any"
     },
     {
