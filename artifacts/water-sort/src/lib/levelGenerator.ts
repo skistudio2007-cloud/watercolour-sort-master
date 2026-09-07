@@ -32,25 +32,25 @@ export interface LevelDefinition {
 }
 
 export const ALL_COLORS: Color[] = [
-  "blue",
   "red",
+  "blue",
   "yellow",
   "green",
   "orange",
   "purple",
-  "pink",
   "cyan",
+  "pink",
   "lime",
-  "brown",
+  "amber",
   "teal",
   "indigo",
   "magenta",
-  "amber",
   "coral",
   "emerald",
   "violet",
   "sky",
   "rose",
+  "brown",
   "olive",
 ];
 
@@ -238,7 +238,7 @@ export function isBoardSolvable(tubes: Color[][], maxSteps = 15000): boolean {
 // ─── Procedural Solvable Board Generation ──────────────────────────────────────
 
 function generateSolvableTubes(levelId: number, config: GenConfig): Color[][] {
-  for (let attempt = 0; attempt < 30; attempt++) {
+  for (let attempt = 0; attempt < 50; attempt++) {
     const rng = makeRng(levelId * 2654435761 + 1013904223 + attempt * 7919);
 
     // Pick colors for this level deterministically
@@ -336,7 +336,7 @@ function generateSolvableTubes(levelId: number, config: GenConfig): Color[][] {
     }
   }
 
-  // Fallback safe guarantee: If loop exhausted, manually swap 1 liquid block to break pre-solved state
+  // Fallback safe guarantee: Circular shift ensuring ZERO pre-solved tubes across all colored bottles
   const tubes: Color[][] = [];
   const chosenColors = ALL_COLORS.slice(0, config.numColors);
   for (let i = 0; i < config.numColors; i++) {
@@ -345,12 +345,11 @@ function generateSolvableTubes(levelId: number, config: GenConfig): Color[][] {
   for (let i = 0; i < config.emptyTubes; i++) {
     tubes.push([]);
   }
-  // Cross-swap adjacent colors to ensure scramble
-  if (tubes.length >= 3 && tubes[0].length > 0 && tubes[1].length > 0) {
-    const c0 = tubes[0].pop()!;
-    const c1 = tubes[1].pop()!;
-    tubes[0].push(c1);
-    tubes[1].push(c0);
+  // Circularly shift 1 top block across ALL colored tubes so NO tube is ever pre-solved
+  const popped = tubes.slice(0, config.numColors).map((t) => t.pop()!);
+  for (let i = 0; i < config.numColors; i++) {
+    const nextIdx = (i + 1) % config.numColors;
+    tubes[nextIdx].push(popped[i]);
   }
   return tubes.map((t) => [...t]);
 }

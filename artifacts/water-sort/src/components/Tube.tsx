@@ -267,8 +267,10 @@ export default function Tube({
 
           {/* 2. Liquid Contents (Clipped strictly to container cavity) */}
           <g clipPath={`url(#${clipId})`}>
-            {/* Cavity inner tint */}
-            <rect x="0" y="0" width="60" height="180" fill={isDark ? "rgba(6, 12, 20, 0.45)" : "rgba(255, 255, 255, 0.35)"} />
+            {/* Clean subtle cavity tint for empty tubes */}
+            {tube.colors.length === 0 && (
+              <rect x="0" y="0" width="60" height="180" fill={isDark ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 0, 0, 0.03)"} />
+            )}
 
             <AnimatePresence initial={false}>
               {segments.map((seg, i) => {
@@ -282,15 +284,15 @@ export default function Tube({
                 const segY = cavityBottom - (bottomPercent + heightPercent) * cavityH;
                 const segH = heightPercent * cavityH;
 
-                const gradient = COLOR_GRADIENT[seg.color];
+                const gradient = COLOR_GRADIENT[seg.color] || ["#3B82F6", "#1D4ED8"];
                 const isTop = i === segments.length - 1;
 
                 return (
                   <g key={`${index}-${seg.startIdx}-${seg.color}`}>
                     <defs>
                       <linearGradient id={`liq-${index}-${i}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor={gradient[0]} stopOpacity="0.94" />
-                        <stop offset="100%" stopColor={gradient[1]} stopOpacity="0.96" />
+                        <stop offset="0%" stopColor={gradient[0]} stopOpacity="1" />
+                        <stop offset="100%" stopColor={gradient[1]} stopOpacity="1" />
                       </linearGradient>
                     </defs>
 
@@ -327,6 +329,30 @@ export default function Tube({
                       fill={`url(#liq-${index}-${i})`}
                     />
 
+                    {/* Crisp separator line between liquid blocks for distinct layer visibility */}
+                    {i > 0 && (
+                      <g>
+                        <line
+                          x1="4"
+                          y1={segY + segH}
+                          x2="56"
+                          y2={segY + segH}
+                          stroke="#FFFFFF"
+                          strokeOpacity="0.5"
+                          strokeWidth="1.2"
+                        />
+                        <line
+                          x1="4"
+                          y1={segY + segH + 0.8}
+                          x2="56"
+                          y2={segY + segH + 0.8}
+                          stroke="#000000"
+                          strokeOpacity="0.25"
+                          strokeWidth="0.8"
+                        />
+                      </g>
+                    )}
+
                     {/* Smooth Horizontal Meniscus Surface at Top of Liquid */}
                     {isTop && (
                       <g>
@@ -334,18 +360,17 @@ export default function Tube({
                           cx="30"
                           cy={segY}
                           rx="24"
-                          ry="2.6"
+                          ry="2.8"
                           fill={gradient[0]}
-                          opacity="0.95"
                         />
                         {/* Soft surface highlight on liquid surface */}
                         <ellipse
                           cx="30"
-                          cy={segY - 0.4}
+                          cy={segY - 0.5}
                           rx="18"
                           ry="1.4"
                           fill="#FFFFFF"
-                          opacity="0.22"
+                          fillOpacity="0.38"
                         />
                       </g>
                     )}
@@ -375,8 +400,8 @@ export default function Tube({
                         fill="#FFFFFF"
                         fontSize="11"
                         fontWeight="800"
-                        opacity="0.85"
-                        style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}
+                        opacity="0.95"
+                        style={{ textShadow: "0 1px 2px rgba(0,0,0,0.9)" }}
                       >
                         {COLOR_SYMBOLS[seg.color]}
                       </text>
@@ -408,6 +433,12 @@ export default function Tube({
             pointerEvents="none"
             opacity="0.45"
           />
+          {/* 3.5 Subtle measurement ticks for clear capacity gauge */}
+          <g opacity={isDark ? "0.45" : "0.35"} pointerEvents="none">
+            <line x1="8" y1="54" x2="14" y2="54" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1" strokeLinecap="round" />
+            <line x1="8" y1="92" x2="16" y2="92" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="8" y1="130" x2="14" y2="130" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1" strokeLinecap="round" />
+          </g>
 
           {/* 4. Crisp Outer Glass Outline (Adaptive for Dark / Light Mode) */}
           <path

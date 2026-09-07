@@ -7,49 +7,49 @@ export type Color =
   | "emerald" | "violet";
 
 export const COLOR_HEX: Record<Color, string> = {
-  orange:  "#F26B3A", // Orange
-  yellow:  "#E8B83A", // Yellow
-  red:     "#C94B68", // Crimson
-  pink:    "#D95AAE", // Pink
-  purple:  "#8B63C7", // Purple
-  blue:    "#3F73C9", // Blue
-  sky:     "#4CA8C1", // Sky Blue
-  teal:    "#42AFA0", // Turquoise
-  green:   "#65B64A", // Green
-  coral:   "#E9826D", // Coral
-  cyan:    "#38A3A5", // Deep Cyan
-  lime:    "#7CB518", // Soft Lime
-  magenta: "#C05299", // Soft Magenta
-  amber:   "#D48B38", // Rich Amber
-  emerald: "#2D936C", // Deep Emerald
-  violet:  "#6E5494", // Elegant Violet
-  rose:    "#BD4057", // Deep Rose
-  indigo:  "#4A69BD", // Soft Indigo
-  brown:   "#8D6E63", // Warm Sienna Brown
-  olive:   "#606C38", // Earth Olive
+  red:     "#EF4444", // Pure Vivid Crimson Ruby Red
+  blue:    "#2563EB", // Pure Vivid Sapphire Royal Blue
+  yellow:  "#FACC15", // Pure Bright Sunshine Yellow
+  green:   "#16A34A", // Pure Vivid Emerald Green
+  orange:  "#F97316", // Pure Glowing Tangerine Orange
+  purple:  "#9333EA", // Pure Electric Purple
+  pink:    "#EC4899", // Pure Radiant Hot Pink
+  cyan:    "#06B6D4", // Pure Glowing Cyan Turquoise
+  lime:    "#84CC16", // Pure Electric Lime
+  amber:   "#F59E0B", // Pure Golden Honey Amber
+  teal:    "#0D9488", // Pure Deep Sea Teal
+  indigo:  "#4F46E5", // Pure Deep Electric Indigo
+  magenta: "#C026D3", // Pure Rich Magenta
+  coral:   "#FB7185", // Pure Bright Coral Rose
+  emerald: "#059669", // Pure Deep Mint Emerald
+  violet:  "#7C3AED", // Pure Deep Royal Violet
+  sky:     "#38BDF8", // Pure Crystal Sky Blue
+  rose:    "#E11D48", // Pure Scarlet Rose
+  brown:   "#92400E", // Pure Warm Caramel Brown
+  olive:   "#65A30D", // Pure Olive Green
 };
 
 export const COLOR_GRADIENT: Record<Color, [string, string]> = {
-  orange:  ["#F57D4F", "#D95624"],
-  yellow:  ["#ECC455", "#CFA026"],
-  red:     ["#D45D78", "#AF3953"],
-  pink:    ["#E06EBA", "#BE4693"],
-  purple:  ["#9A75D4", "#774FB5"],
-  blue:    ["#5185D9", "#2E5EAF"],
-  sky:     ["#5EB6CE", "#3D94AB"],
-  teal:    ["#52BDAE", "#32998A"],
-  green:   ["#75C35A", "#53A238"],
-  coral:   ["#ED927E", "#D46B55"],
-  cyan:    ["#48B2B4", "#2B8C8E"],
-  lime:    ["#8BC428", "#6AA010"],
-  magenta: ["#CC63A6", "#AA4084"],
-  amber:   ["#DE9A4B", "#B87425"],
-  emerald: ["#3BA67D", "#217D59"],
-  violet:  ["#7D63A4", "#5B427F"],
-  rose:    ["#CA4E65", "#A83046"],
-  indigo:  ["#5C7CCE", "#3856A9"],
-  brown:   ["#9E7E73", "#7A5C52"],
-  olive:   ["#717E46", "#505A2B"],
+  red:     ["#F87171", "#DC2626"],
+  blue:    ["#3B82F6", "#1D4ED8"],
+  yellow:  ["#FDE047", "#EAB308"],
+  green:   ["#22C55E", "#15803D"],
+  orange:  ["#FB923C", "#EA580C"],
+  purple:  ["#A855F7", "#7E22CE"],
+  pink:    ["#F472B6", "#DB2777"],
+  cyan:    ["#22D3EE", "#0891B2"],
+  lime:    ["#A3E635", "#65A30D"],
+  amber:   ["#FBBF24", "#D97706"],
+  teal:    ["#14B8A6", "#0F766E"],
+  indigo:  ["#6366F1", "#4338CA"],
+  magenta: ["#D946EF", "#A21CAF"],
+  coral:   ["#FDA4AF", "#F43F5E"],
+  emerald: ["#10B981", "#047857"],
+  violet:  ["#8B5CF6", "#6D28D9"],
+  sky:     ["#7DD3FC", "#0284C7"],
+  rose:    ["#FB7185", "#BE123C"],
+  brown:   ["#B45309", "#78350F"],
+  olive:   ["#84CC16", "#4D7C0F"],
 };
 
 // Accessibility Symbols for Colorblind Support
