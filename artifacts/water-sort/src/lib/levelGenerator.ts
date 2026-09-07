@@ -88,9 +88,9 @@ interface GenConfig {
 }
 
 export function getLevelConfig(levelId: number): GenConfig {
-  // 1–10: Engaging Tutorial (No trivial pre-solved boards, real 3-4 color puzzles)
+  // 1–10: Engaging Tutorial (Standard 2 empty tubes to guarantee 100% solvability)
   if (levelId <= 3) {
-    return { numColors: 3, emptyTubes: 1, difficulty: "tutorial", parMoves: 8, scrambleMoves: 26 + levelId * 3 };
+    return { numColors: 3, emptyTubes: 2, difficulty: "tutorial", parMoves: 8, scrambleMoves: 16 + levelId * 2 };
   }
   if (levelId <= 10) {
     return { numColors: 4, emptyTubes: 2, difficulty: "tutorial", parMoves: 12, scrambleMoves: 34 + levelId * 2 };
@@ -180,6 +180,61 @@ function topGroup(tube: Color[]): number {
   return count;
 }
 
+// ─── Fast BFS Solvability Verifier ────────────────────────────────────────────
+
+export function isBoardSolvable(tubes: Color[][], maxSteps = 15000): boolean {
+  const isComplete = (state: Color[][]) =>
+    state.every((t) => t.length === 0 || (t.length === TUBE_CAPACITY && t.every((c) => c === t[0])));
+
+  if (isComplete(tubes)) return true;
+
+  const key = (state: Color[][]) => state.map((t) => t.join(",")).sort().join("|");
+  const queue: Color[][][] = [tubes];
+  const visited = new Set<string>();
+  visited.add(key(tubes));
+
+  let steps = 0;
+  while (queue.length > 0 && steps < maxSteps) {
+    steps++;
+    const state = queue.shift()!;
+    if (isComplete(state)) return true;
+
+    for (let i = 0; i < state.length; i++) {
+      const from = state[i];
+      if (from.length === 0) continue;
+      if (from.length === TUBE_CAPACITY && from.every((c) => c === from[0])) continue;
+
+      const fromColor = from[from.length - 1];
+
+      for (let j = 0; j < state.length; j++) {
+        if (i === j) continue;
+        const to = state[j];
+        if (to.length >= TUBE_CAPACITY) continue;
+        const toTop = to.length > 0 ? to[to.length - 1] : null;
+
+        if (toTop === null || toTop === fromColor) {
+          if (to.length === 0 && from.every((c) => c === from[0])) continue;
+
+          const next: Color[][] = state.map((t) => [...t]);
+          const nFrom = next[i];
+          const nTo = next[j];
+          while (nFrom.length > 0 && nFrom[nFrom.length - 1] === fromColor && nTo.length < TUBE_CAPACITY) {
+            nTo.push(nFrom.pop()!);
+          }
+
+          const k = key(next);
+          if (!visited.has(k)) {
+            visited.add(k);
+            queue.push(next);
+          }
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
 // ─── Procedural Solvable Board Generation ──────────────────────────────────────
 
 function generateSolvableTubes(levelId: number, config: GenConfig): Color[][] {
@@ -267,28 +322,17 @@ function generateSolvableTubes(levelId: number, config: GenConfig): Color[][] {
       [tubes[i], tubes[j]] = [tubes[j], tubes[i]];
     }
 
-    // Ensure at least 1 empty tube is available as workspace
-    const emptyCount = tubes.filter((t) => t.length === 0).length;
-    if (emptyCount === 0) {
-      const candidateIdx = tubes.findIndex((t) => t.length > 0 && t.length < TUBE_CAPACITY);
-      if (candidateIdx !== -1) {
-        while (tubes[candidateIdx].length > 0) {
-          const item = tubes[candidateIdx].pop()!;
-          const dest = tubes.find((t) => t !== tubes[candidateIdx] && t.length < TUBE_CAPACITY);
-          if (dest) dest.push(item);
-        }
-      }
-    }
-
     // STRICT VALIDATION: Guarantee NO tube starts already complete (4 identical colors)
     const hasPreSolvedTube = tubes.some(
       (t) => t.length === TUBE_CAPACITY && t.every((c) => c === t[0])
     );
+    const emptyCount = tubes.filter((t) => t.length === 0).length;
 
-    // If no tube is pre-solved and at least 1 tube is empty, board is valid and ready
-    const hasEmpty = tubes.some((t) => t.length === 0);
-    if (!hasPreSolvedTube && hasEmpty) {
-      return tubes.map((t) => [...t]);
+    // Must have required empty tubes, no pre-solved tubes, and proven solvable by BFS
+    if (!hasPreSolvedTube && emptyCount >= config.emptyTubes) {
+      if (isBoardSolvable(tubes)) {
+        return tubes.map((t) => [...t]);
+      }
     }
   }
 
