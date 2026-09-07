@@ -87,15 +87,17 @@ export default function BottlePreview({
         </g>
 
         {/* Subtle glass reflection streak */}
-        <path
-          d="M 16 22 L 16 160"
-          stroke={`url(#preview-specular-${clipId})`}
-          strokeWidth="3.5"
-          strokeLinecap="round"
-          fill="none"
-          pointerEvents="none"
-          opacity="0.55"
-        />
+        {geometry.specularPath && (
+          <path
+            d={geometry.specularPath}
+            stroke={`url(#preview-specular-${clipId})`}
+            strokeWidth="3"
+            strokeLinecap="round"
+            fill="none"
+            pointerEvents="none"
+            opacity="0.55"
+          />
+        )}
 
         {/* Clean crisp white outline */}
         <path

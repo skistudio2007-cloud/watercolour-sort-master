@@ -274,8 +274,8 @@ export default function Tube({
 
             <AnimatePresence initial={false}>
               {segments.map((seg, i) => {
-                const cavityTop = 16;
-                const cavityBottom = 168;
+                const cavityTop = geometry.cavityTop;
+                const cavityBottom = geometry.cavityBottom;
                 const cavityH = cavityBottom - cavityTop;
 
                 const bottomPercent = seg.startIdx / TUBE_CAPACITY;
@@ -333,18 +333,18 @@ export default function Tube({
                     {i > 0 && (
                       <g>
                         <line
-                          x1="4"
+                          x1="0"
                           y1={segY + segH}
-                          x2="56"
+                          x2="60"
                           y2={segY + segH}
                           stroke="#FFFFFF"
                           strokeOpacity="0.5"
                           strokeWidth="1.2"
                         />
                         <line
-                          x1="4"
+                          x1="0"
                           y1={segY + segH + 0.8}
-                          x2="56"
+                          x2="60"
                           y2={segY + segH + 0.8}
                           stroke="#000000"
                           strokeOpacity="0.25"
@@ -360,15 +360,15 @@ export default function Tube({
                           cx="30"
                           cy={segY}
                           rx="24"
-                          ry="2.8"
+                          ry="2.4"
                           fill={gradient[0]}
                         />
                         {/* Soft surface highlight on liquid surface */}
                         <ellipse
                           cx="30"
-                          cy={segY - 0.5}
+                          cy={segY - 0.4}
                           rx="18"
-                          ry="1.4"
+                          ry="1.2"
                           fill="#FFFFFF"
                           fillOpacity="0.38"
                         />
@@ -410,35 +410,29 @@ export default function Tube({
                 );
               })}
             </AnimatePresence>
+          </g>
 
-            {/* Subtle Vertical Internal Light Reflection (Gentle, Not Fluorescent) */}
-            <rect
-              x="14"
-              y="16"
-              width="5"
-              height="150"
-              fill="url(#glass-specular)"
-              opacity="0.16"
+          {/* 3. Subtle Specular Glass Highlight (Follows container geometry) */}
+          {geometry.specularPath && (
+            <path
+              d={geometry.specularPath}
+              stroke="url(#glass-specular)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              fill="none"
               pointerEvents="none"
+              opacity="0.45"
             />
-          </g>
+          )}
 
-          {/* 3. Subtle Vertical Specular Glass Highlight */}
-          <path
-            d="M 16 20 L 16 160"
-            stroke="url(#glass-specular)"
-            strokeWidth="3"
-            strokeLinecap="round"
-            fill="none"
-            pointerEvents="none"
-            opacity="0.45"
-          />
-          {/* 3.5 Subtle measurement ticks for clear capacity gauge */}
-          <g opacity={isDark ? "0.45" : "0.35"} pointerEvents="none">
-            <line x1="8" y1="54" x2="14" y2="54" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1" strokeLinecap="round" />
-            <line x1="8" y1="92" x2="16" y2="92" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1.2" strokeLinecap="round" />
-            <line x1="8" y1="130" x2="14" y2="130" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1" strokeLinecap="round" />
-          </g>
+          {/* 3.5 Subtle measurement ticks for lab tubes */}
+          {(activeBottle === "classic" || activeBottle === "tall_lab" || activeBottle === "beaker") && (
+            <g opacity={isDark ? "0.45" : "0.35"} pointerEvents="none">
+              <line x1="8" y1="54" x2="14" y2="54" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1" strokeLinecap="round" />
+              <line x1="8" y1="92" x2="16" y2="92" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1.2" strokeLinecap="round" />
+              <line x1="8" y1="130" x2="14" y2="130" stroke={isDark ? "#FFFFFF" : "#000000"} strokeWidth="1" strokeLinecap="round" />
+            </g>
+          )}
 
           {/* 4. Crisp Outer Glass Outline (Adaptive for Dark / Light Mode) */}
           <path
