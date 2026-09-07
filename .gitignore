@@ -7,3 +7,4 @@ dist/
 Thumbs.db
 Liquid-Sort-Master/
 water-sort-puzzle.zip
+*.tsbuildinfo
