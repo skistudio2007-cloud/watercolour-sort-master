@@ -17,23 +17,34 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Water Sort Puzzle: Color Liquid Master" />
     <meta name="twitter:description" content="Pour colored water between tubes to sort each color into its own tube." />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
-    <link rel="apple-touch-icon" href="/icon-192x192.png" />
-    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192x192.png" />
+    <link rel="apple-touch-icon" href="./icon-192x192.png" />
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <link rel="manifest" href="./manifest.json" />
     <meta name="msapplication-TileColor" content="#08101a" />
-    <meta name="msapplication-TileImage" content="/icons/Square150x150Logo.png" />
-    <meta name="msapplication-square70x70logo" content="/icons/Square71x71Logo.png" />
-    <meta name="msapplication-square150x150logo" content="/icons/Square150x150Logo.png" />
-    <meta name="msapplication-wide310x150logo" content="/icons/Wide310x150Logo.png" />
-    <meta name="msapplication-square310x310logo" content="/icons/Square310x310Logo.png" />
+    <meta name="msapplication-TileImage" content="./icons/Square150x150Logo.png" />
+    <meta name="msapplication-square70x70logo" content="./icons/Square71x71Logo.png" />
+    <meta name="msapplication-square150x150logo" content="./icons/Square150x150Logo.png" />
+    <meta name="msapplication-wide310x150logo" content="./icons/Wide310x150Logo.png" />
+    <meta name="msapplication-square310x310logo" content="./icons/Square310x310Logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="./src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then((registration) => {
+              registration.update();
+            })
+            .catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

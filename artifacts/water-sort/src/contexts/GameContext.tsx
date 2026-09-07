@@ -473,7 +473,8 @@ function reducer(
     case "SHOW_HINT": {
       if (
         !state.gameState ||
-        state.gameState.isComplete
+        state.gameState.isComplete ||
+        state.hintMove
       ) {
         return state;
       }
@@ -492,9 +493,8 @@ function reducer(
 
         hintMove: hint,
 
-        // Hint stays active until move is made (or up to 15 seconds)
-        hintExpiry:
-          Date.now() + 15000,
+        // Hint stays active until move is made (no auto-timeout)
+        hintExpiry: 0,
 
         hintsUsedThisLevel:
           state.hintsUsedThisLevel + 1,
@@ -1248,7 +1248,8 @@ export function GameProvider({
 
         if (
           !current.gameState ||
-          current.gameState.isComplete
+          current.gameState.isComplete ||
+          current.hintMove
         ) {
           return;
         }
