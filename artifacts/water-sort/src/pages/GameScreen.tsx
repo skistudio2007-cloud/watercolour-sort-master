@@ -173,34 +173,34 @@ export default function GameScreen() {
       exit={{ opacity: 0 }}
       className="w-full min-h-full flex flex-col justify-between relative select-none pb-4"
     >
-      {/* ================= TOP HEADER ================= */}
+      {/* ================= TOP HEADER (FROSTED GLASS CAPSULE HUD) ================= */}
       <header className="relative w-full max-w-xl md:max-w-4xl lg:max-w-5xl mx-auto flex items-center justify-between px-4 sm:px-6 pt-3 pb-2 z-20">
         {/* Back / Home */}
         <button
           onClick={onHome}
-          className="w-10 h-10 rounded-2xl bg-card/75 backdrop-blur-md border border-white/20 dark:border-white/10 flex items-center justify-center text-foreground shadow-sm hover:bg-card active:scale-95 transition-all"
+          className="w-11 h-11 rounded-2xl bg-card/75 backdrop-blur-xl border border-white/25 dark:border-white/10 flex items-center justify-center text-foreground shadow-lg hover:bg-card active:scale-95 transition-all cyber-action-btn"
           title={t("back")}
           aria-label={t("back")}
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
 
-        {/* Level Title & Difficulty */}
-        <div className="flex flex-col items-center">
-          <div className="flex items-center gap-2">
-            <span className="title-font text-lg md:text-xl font-black text-foreground">
+        {/* Level Title & Difficulty inside Frosted Glass Capsule */}
+        <div className="glass-capsule-hud px-5 py-2 flex flex-col items-center shadow-lg">
+          <div className="flex items-center gap-2.5">
+            <span className="title-font text-lg md:text-xl font-black text-foreground drop-shadow-sm">
               {t("level")} {state.currentLevel}
             </span>
             <span
-              className="text-[9.5px] uppercase font-black px-2 py-0.5 rounded-full border"
-              style={{ borderColor: diffColor, color: diffColor }}
+              className="text-[9.5px] uppercase font-black px-2.5 py-0.5 rounded-full border shadow-sm"
+              style={{ borderColor: diffColor, color: diffColor, backgroundColor: `${diffColor}18` }}
             >
               {getDifficultyLabel(difficulty)}
             </span>
           </div>
 
           {/* Moves Count */}
-          <span className="text-[11px] font-bold text-muted-foreground font-mono">
+          <span className="text-[11px] font-extrabold text-muted-foreground font-mono mt-0.5">
             {state.gameState.moveCount} {t("moves")}
           </span>
         </div>
@@ -212,7 +212,7 @@ export default function GameScreen() {
             SFX.tap();
             setPauseMenuOpen(true);
           }}
-          className="w-10 h-10 rounded-2xl bg-card/75 backdrop-blur-md border border-white/20 dark:border-white/10 flex items-center justify-center text-foreground shadow-sm hover:bg-card active:scale-95 transition-all"
+          className="w-11 h-11 rounded-2xl bg-card/75 backdrop-blur-xl border border-white/25 dark:border-white/10 flex items-center justify-center text-foreground shadow-lg hover:bg-card active:scale-95 transition-all cyber-action-btn"
           title={t("pause")}
           aria-label={t("pause")}
         >
@@ -223,8 +223,8 @@ export default function GameScreen() {
       {/* Milestone Level Banner */}
       {isMilestone && (
         <div className="w-full flex justify-center px-4 -mt-1 mb-1 z-10">
-          <div className="bg-gradient-to-r from-amber-500/20 to-yellow-400/20 border border-amber-400/40 backdrop-blur px-3 py-0.5 rounded-full text-[10px] font-black text-amber-500 flex items-center gap-1">
-            <Sparkles className="w-3 h-3" /> {getMilestoneTitle(state.currentLevel)}
+          <div className="bg-gradient-to-r from-amber-500/25 via-yellow-400/25 to-amber-500/25 border border-amber-400/50 backdrop-blur-md px-4 py-1 rounded-full text-[11px] font-black text-amber-400 flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.3)]">
+            <Sparkles className="w-3.5 h-3.5 animate-spin" /> {getMilestoneTitle(state.currentLevel)}
           </div>
         </div>
       )}
@@ -234,32 +234,32 @@ export default function GameScreen() {
         <TubeGrid />
       </main>
 
-      {/* ================= LOWER CONTROL DOCK (3 PREMIUM BUTTONS) ================= */}
+      {/* ================= LOWER CONTROL DOCK (CYBER GLASS DOCK) ================= */}
       <footer className="w-full max-w-md md:max-w-lg lg:max-w-xl mx-auto px-5 pt-2 z-20">
-        <div className="w-full bg-card/90 backdrop-blur-xl border border-white/25 dark:border-white/15 rounded-3xl p-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.1)] flex items-center justify-around gap-3">
+        <div className="cyber-glass-dock w-full p-2.5 flex items-center justify-around gap-3">
           {/* Restart */}
           <button
             onClick={() => setRestartConfirm(true)}
             disabled={state.gameState.isComplete || state.isAnimating}
-            className="flex-1 py-2.5 px-3 rounded-2xl flex flex-col items-center justify-center text-foreground/85 hover:bg-secondary/70 active:scale-95 transition-all disabled:opacity-40 cursor-pointer"
+            className="flex-1 py-3 px-3 rounded-2xl flex flex-col items-center justify-center text-foreground/85 hover:bg-white/10 active:scale-95 transition-all disabled:opacity-40 cursor-pointer cyber-action-btn"
           >
-            <RotateCcw className="w-5 h-5 mb-1" />
-            <span className="text-[10px] font-black tracking-tight">{t("restart")}</span>
+            <RotateCcw className="w-5 h-5 mb-1 text-slate-300 dark:text-slate-200" />
+            <span className="text-[10.5px] font-black tracking-tight">{t("restart")}</span>
           </button>
 
           {/* Undo with Inventory Count / Buy $0.10 badge */}
           <button
             onClick={onUndoClick}
             disabled={!canUndo}
-            className="flex-1 py-2.5 px-3 rounded-2xl flex flex-col items-center justify-center text-foreground/85 hover:bg-secondary/70 active:scale-95 transition-all disabled:opacity-40 relative cursor-pointer"
+            className="flex-1 py-3 px-3 rounded-2xl flex flex-col items-center justify-center text-foreground/85 hover:bg-white/10 active:scale-95 transition-all disabled:opacity-40 relative cursor-pointer cyber-action-btn"
           >
-            <Undo2 className="w-5 h-5 mb-1" />
-            <span className="text-[10px] font-black tracking-tight">{t("undo")}</span>
+            <Undo2 className="w-5 h-5 mb-1 text-sky-400 drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]" />
+            <span className="text-[10.5px] font-black tracking-tight">{t("undo")}</span>
             <span
-              className={`text-[8.5px] font-mono font-bold mt-0.5 px-2 py-0.2 rounded-full ${
+              className={`text-[9px] font-mono font-black mt-1 px-2.5 py-0.5 rounded-full border shadow-sm ${
                 undosLeft > 0
-                  ? "text-primary bg-primary/10"
-                  : "text-amber-500 bg-amber-500/15"
+                  ? "text-sky-400 bg-sky-500/15 border-sky-400/30"
+                  : "text-amber-400 bg-amber-500/20 border-amber-400/40"
               }`}
             >
               {undosLeft > 0 ? `${undosLeft} left` : "+ Buy $0.10"}
@@ -270,23 +270,23 @@ export default function GameScreen() {
           <button
             onClick={onHintClick}
             disabled={state.gameState.isComplete || state.isAnimating}
-            className={`flex-1 py-2.5 px-3 rounded-2xl flex flex-col items-center justify-center transition-all disabled:opacity-40 relative cursor-pointer ${
+            className={`flex-1 py-3 px-3 rounded-2xl flex flex-col items-center justify-center transition-all disabled:opacity-40 relative cursor-pointer cyber-action-btn ${
               state.hintMove
-                ? "bg-amber-500/15 border border-amber-400/40 text-amber-500 shadow-sm"
-                : "text-primary hover:bg-secondary/70 active:scale-95"
+                ? "bg-amber-500/20 border border-amber-400/50 text-amber-400 shadow-[0_0_16px_rgba(251,191,36,0.35)]"
+                : "text-primary hover:bg-white/10 active:scale-95"
             }`}
           >
-            <Lightbulb className={`w-5 h-5 mb-1 ${state.hintMove ? "text-amber-400 fill-amber-400 animate-pulse" : "text-primary"}`} />
-            <span className="text-[10px] font-black tracking-tight">
+            <Lightbulb className={`w-5 h-5 mb-1 ${state.hintMove ? "text-amber-400 fill-amber-400 animate-pulse drop-shadow-[0_0_10px_rgba(251,191,36,0.8)]" : "text-amber-300 drop-shadow-[0_0_8px_rgba(252,211,77,0.4)]"}`} />
+            <span className="text-[10.5px] font-black tracking-tight">
               {state.hintMove ? "Active Hint" : t("hint")}
             </span>
             <span
-              className={`text-[8.5px] font-mono font-bold mt-0.5 px-2 py-0.2 rounded-full ${
+              className={`text-[9px] font-mono font-black mt-1 px-2.5 py-0.5 rounded-full border shadow-sm ${
                 state.hintMove
-                  ? "text-amber-400 bg-amber-400/20 font-black"
+                  ? "text-amber-300 bg-amber-400/30 border-amber-400 font-black"
                   : hintsLeft > 0
-                  ? "text-emerald-500 bg-emerald-500/15"
-                  : "text-amber-500 bg-amber-500/15"
+                  ? "text-emerald-400 bg-emerald-500/20 border-emerald-400/30"
+                  : "text-amber-400 bg-amber-500/20 border-amber-400/40"
               }`}
             >
               {state.hintMove ? "Move Shown" : hintsLeft > 0 ? `${hintsLeft} left` : "+ Buy $0.10"}

@@ -61,6 +61,13 @@ export default function BackgroundLayer({ backgroundId }: BackgroundLayerProps) 
         />
       </AnimatePresence>
 
+      {/* Ambient Cyber Aurora Orbs (Subtle Depth Lighting) */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40 dark:opacity-30">
+        <div className="absolute -top-[15%] -left-[10%] w-[320px] h-[320px] rounded-full bg-cyan-500/20 blur-[90px]" />
+        <div className="absolute top-[40%] -right-[15%] w-[350px] h-[350px] rounded-full bg-purple-600/20 blur-[100px]" />
+        <div className="absolute -bottom-[10%] left-[20%] w-[280px] h-[280px] rounded-full bg-blue-500/20 blur-[80px]" />
+      </div>
+
       {/* Subtle floating ambient particles/bubbles */}
       <div className="absolute inset-0">
         {bubbles.map((b) => (

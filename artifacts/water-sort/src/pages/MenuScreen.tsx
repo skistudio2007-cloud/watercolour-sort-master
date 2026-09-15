@@ -144,39 +144,57 @@ export default function MenuScreen() {
 
       {/* ================= CENTER HERO ================= */}
       <div className="flex flex-col items-center z-10 my-auto py-2">
-        {/* Animated 3D Glass Test Tube Logo */}
+        {/* Animated 3D Glass Test Tube Hero with Cyber Glow */}
         <motion.div
           initial={{ scale: 0.88, y: -8 }}
           animate={{ scale: 1, y: 0 }}
-          transition={{ type: "spring", bounce: 0.4 }}
-          className="relative mb-5"
+          transition={{ type: "spring", bounce: 0.45 }}
+          className="relative mb-5 cursor-pointer"
+          whileHover={{ scale: 1.06, rotate: [0, -2, 2, 0] }}
+          onClick={() => {
+            Haptics.tap();
+            SFX.tap();
+          }}
         >
-          <div className="glass-test-tube w-20 h-32 relative flex flex-col justify-end p-1.5 shadow-2xl">
+          {/* Ambient Cyber Aura behind tube */}
+          <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/25 via-blue-500/20 to-purple-600/30 rounded-full blur-2xl pointer-events-none" />
+
+          <div className="glass-test-tube w-22 h-36 relative flex flex-col justify-end p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.45)] border-2 border-white/40 dark:border-white/20">
             {/* Tube glass rim */}
             <div className="glass-rim" />
             <div className="glass-specular-highlight" />
+            <div className="glass-secondary-shine" />
 
-            <div className="w-full h-full relative rounded-b-[1.3rem] overflow-hidden">
-              {/* Bottom Liquid Layer (Blue) */}
+            <div className="w-full h-full relative rounded-b-[1.4rem] overflow-hidden">
+              {/* Bottom Liquid Layer (Vibrant Cyan-Blue with Internal Light) */}
               <motion.div
-                className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-blue-700 via-blue-500 to-cyan-400"
-                animate={{ height: ["48%", "54%", "48%"] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-blue-700 via-sky-500 to-cyan-300"
+                animate={{ height: ["48%", "55%", "48%"] }}
+                transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
               >
+                <div className="liquid-inner-light" />
+                {/* Floating micro-bubbles */}
+                <div className="absolute w-1.5 h-1.5 bg-white/70 rounded-full left-3 bottom-2 liquid-bubble" style={{ animationDelay: "0.2s" }} />
+                <div className="absolute w-2 h-2 bg-white/60 rounded-full right-4 bottom-4 liquid-bubble" style={{ animationDelay: "1.1s" }} />
+
                 <div className="liquid-meniscus">
-                  <div className="meniscus-highlight" style={{ backgroundColor: "#60A5FA" }} />
+                  <div className="meniscus-highlight" style={{ backgroundColor: "#38BDF8" }} />
                 </div>
               </motion.div>
 
-              {/* Top Floating Liquid Layer (Purple) */}
+              {/* Top Floating Liquid Layer (Vibrant Violet-Pink with Internal Light) */}
               <motion.div
-                className="absolute inset-x-0 bg-gradient-to-t from-purple-700 via-purple-500 to-pink-400 opacity-90"
+                className="absolute inset-x-0 bg-gradient-to-t from-purple-700 via-fuchsia-500 to-pink-400 opacity-95"
                 style={{ bottom: "48%" }}
-                animate={{ height: ["34%", "28%", "34%"] }}
-                transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
+                animate={{ height: ["35%", "29%", "35%"] }}
+                transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
               >
+                <div className="liquid-inner-light" />
+                {/* Floating micro-bubbles */}
+                <div className="absolute w-1.5 h-1.5 bg-white/75 rounded-full left-4 bottom-1 liquid-bubble" style={{ animationDelay: "0.7s" }} />
+
                 <div className="liquid-meniscus">
-                  <div className="meniscus-highlight" style={{ backgroundColor: "#C084FC" }} />
+                  <div className="meniscus-highlight" style={{ backgroundColor: "#E879F9" }} />
                 </div>
               </motion.div>
             </div>
@@ -188,32 +206,36 @@ export default function MenuScreen() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="title-font text-3xl font-black text-center text-foreground tracking-tight"
+          className="title-font text-3xl sm:text-4xl font-black text-center text-foreground tracking-tight drop-shadow-md"
         >
           {t("game_title")}
         </motion.h1>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="mono-label text-[9.5px] uppercase text-primary font-black tracking-widest mt-1"
+          className="flex items-center gap-1.5 mt-1.5 px-3 py-0.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm"
         >
-          {t("game_subtitle")}
-        </motion.p>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+          <span className="mono-label text-[9.5px] uppercase text-primary font-black tracking-widest">
+            {t("game_subtitle")}
+          </span>
+        </motion.div>
       </div>
 
       {/* ================= CENTER / LOWER: PLAY BUTTON & CONTINUE ================= */}
       <div className="w-full flex flex-col items-center gap-3 z-10 max-w-[340px] mx-auto mb-2">
-        {/* DOMINANT DARK GLASS PLAY BUTTON */}
+        {/* DOMINANT CYBER NEON GLASS PLAY BUTTON */}
         <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.96 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.95 }}
           onClick={handlePlay}
-          className="primary-action w-full py-4 rounded-2xl font-black text-xl flex justify-center items-center gap-3 shadow-2xl shadow-primary/30 cursor-pointer"
+          className="hero-neon-play-btn w-full py-4 px-6 rounded-2xl text-xl flex justify-center items-center gap-3 shadow-2xl cursor-pointer"
         >
-          <Play fill="currentColor" className="w-6 h-6 ml-0.5" />
-          <span>{t("play")}</span>
+          <div className="hero-shimmer-beam" />
+          <Play fill="currentColor" className="w-6 h-6 ml-0.5 drop-shadow-sm" />
+          <span className="drop-shadow-sm">{t("play")}</span>
         </motion.button>
 
         {/* Continue Level / Progress Indicator */}
@@ -224,8 +246,9 @@ export default function MenuScreen() {
             SFX.tap();
             navigate("levels");
           }}
-          className="text-xs font-bold text-muted-foreground/90 hover:text-foreground flex items-center gap-1.5 transition-colors py-1"
+          className="text-xs font-black text-muted-foreground/90 hover:text-foreground flex items-center gap-2 transition-all py-1.5 px-4 rounded-xl bg-card/40 hover:bg-card/70 border border-white/10 shadow-sm"
         >
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
           <span>Continue Level {state.progress.maxUnlockedLevel}</span>
         </motion.button>
 
@@ -236,7 +259,7 @@ export default function MenuScreen() {
             SFX.tap();
             setPrivacyModalOpen(true);
           }}
-          className="text-[10px] text-muted-foreground/60 hover:text-muted-foreground transition-colors -mt-1"
+          className="text-[10px] text-muted-foreground/60 hover:text-muted-foreground transition-colors -mt-0.5"
         >
           Privacy Policy
         </button>

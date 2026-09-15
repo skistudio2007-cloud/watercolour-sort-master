@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1526"/>
+      <stop offset="50%" stop-color="#08101a"/>
+      <stop offset="100%" stop-color="#04080e"/>
+    </linearGradient>
+    <linearGradient id="tubeGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.16"/>
+    </linearGradient>
+    <linearGradient id="gBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3F73C9"/><stop offset="100%" stop-color="#2E5EAF"/>
+    </linearGradient>
+    <linearGradient id="gYellow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E8B83A"/><stop offset="100%" stop-color="#CFA026"/>
+    </linearGradient>
+    <linearGradient id="gOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F26B3A"/><stop offset="100%" stop-color="#D95624"/>
+    </linearGradient>
+    <linearGradient id="gTeal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#42AFA0"/><stop offset="100%" stop-color="#32998A"/>
+    </linearGradient>
+    <linearGradient id="gPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8B63C7"/><stop offset="100%" stop-color="#774FB5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect width="508" height="508" x="2" y="2" rx="110" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4"/>
+
+  <g transform="translate(110, 110)">
+    <clipPath id="leftCavity">
+      <path d="M 6 15 L 6 250 A 34 34 0 0 0 74 250 L 74 15 Z"/>
+    </clipPath>
+    <g clip-path="url(#leftCavity)">
+      <rect x="6" y="195" width="68" height="85" fill="url(#gBlue)"/>
+      <rect x="6" y="135" width="68" height="60" fill="url(#gOrange)"/>
+      <rect x="6" y="75" width="68" height="60" fill="url(#gTeal)"/>
+    </g>
+    <path d="M 6 15 L 6 250 A 34 34 0 0 0 74 250 L 74 15 Z" fill="url(#tubeGlass)"/>
+    <path d="M 5 15 L 5 250 A 35 35 0 0 0 75 250 L 75 15" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="40" cy="15" rx="36" ry="7" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+
+  <g transform="translate(350, 110) rotate(-38)">
+    <clipPath id="rightCavity">
+      <path d="M 6 15 L 6 250 A 34 34 0 0 0 74 250 L 74 15 Z"/>
+    </clipPath>
+    <g clip-path="url(#rightCavity)">
+      <rect x="6" y="150" width="68" height="130" fill="url(#gPurple)"/>
+      <rect x="6" y="60" width="68" height="90" fill="url(#gYellow)"/>
+    </g>
+    <path d="M 6 15 L 6 250 A 34 34 0 0 0 74 250 L 74 15 Z" fill="url(#tubeGlass)"/>
+    <path d="M 5 15 L 5 250 A 35 35 0 0 0 75 250 L 75 15" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="40" cy="15" rx="36" ry="7" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+
+  <circle cx="390" cy="110" r="12" fill="#FDE047"/>
+  <circle cx="120" cy="380" r="8" fill="#38BDF8"/>
+</svg>

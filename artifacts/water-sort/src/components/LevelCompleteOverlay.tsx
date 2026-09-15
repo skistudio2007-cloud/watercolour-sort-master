@@ -150,14 +150,16 @@ export default function LevelCompleteOverlay() {
           </div>
         </div>
 
-        {/* Visually Dominant Next Button */}
+        {/* Visually Dominant Next Button with Cyber Neon Glow */}
         <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.96 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.95 }}
           onClick={onNext}
-          className="primary-action w-full py-4 rounded-2xl font-black text-lg shadow-xl shadow-primary/25 flex justify-center items-center gap-2 mb-3"
+          className="hero-neon-play-btn w-full py-4 rounded-2xl font-black text-lg shadow-2xl flex justify-center items-center gap-2 mb-3 cursor-pointer"
         >
-          {t("next_level")} <ArrowRight className="w-6 h-6 stroke-[2.5]" />
+          <div className="hero-shimmer-beam" />
+          <span>{t("next_level")}</span>
+          <ArrowRight className="w-6 h-6 stroke-[2.5] drop-shadow" />
         </motion.button>
 
         {/* Replay & Home Buttons */}

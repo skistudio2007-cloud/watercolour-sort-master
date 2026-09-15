@@ -329,6 +329,38 @@ export default function Tube({
                       fill={`url(#liq-${index}-${i})`}
                     />
 
+                    {/* Internal liquid glossy vertical sheen reflection (3D Depth) */}
+                    <rect
+                      x="10"
+                      y={segY}
+                      width="8"
+                      height={segH}
+                      fill="url(#glass-specular)"
+                      opacity="0.32"
+                      pointerEvents="none"
+                    />
+
+                    {/* Floating micro-bubble inside liquid segment for animated life */}
+                    {segH > 18 && (
+                      <motion.circle
+                        cx={20 + ((i * 13) % 20)}
+                        r="1.2"
+                        fill="#FFFFFF"
+                        opacity="0.65"
+                        initial={{ cy: segY + segH - 4 }}
+                        animate={{
+                          cy: [segY + segH - 4, segY + 4],
+                          opacity: [0, 0.7, 0],
+                        }}
+                        transition={{
+                          duration: 2.2 + (i % 3) * 0.5,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: (i * 0.4) % 1.5,
+                        }}
+                      />
+                    )}
+
                     {/* Crisp separator line between liquid blocks for distinct layer visibility */}
                     {i > 0 && (
                       <g>

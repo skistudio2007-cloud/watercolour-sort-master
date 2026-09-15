@@ -23,8 +23,8 @@ export default function BottomNav() {
   };
 
   return (
-    <div className="w-full relative z-40 px-10 pb-3 pt-1 flex justify-center">
-      <nav className="w-full max-w-[240px] bg-card/85 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-3xl p-1.5 shadow-[0_12px_36px_rgba(0,0,0,0.25)] flex items-center justify-around">
+    <div className="w-full relative z-40 px-10 pb-3.5 pt-1 flex justify-center">
+      <nav className="cyber-glass-dock w-full max-w-[240px] p-1.5 flex items-center justify-around">
         {navItems.map((item) => {
           const isActive = currentScreen === item.id;
           return (
@@ -33,20 +33,20 @@ export default function BottomNav() {
               onClick={() => handleNav(item.id)}
               aria-label={t(item.labelKey)}
               title={t(item.labelKey)}
-              className="relative flex-1 py-2.5 flex flex-col items-center justify-center transition-colors rounded-2xl touch-manipulation cursor-pointer"
+              className="relative flex-1 py-2.5 flex flex-col items-center justify-center transition-all rounded-2xl touch-manipulation cursor-pointer cyber-action-btn"
             >
-              {/* Active Pill Background */}
+              {/* Active Pill Background with Neon Aura */}
               {isActive && (
                 <motion.div
                   layoutId="active-nav-pill"
-                  className="absolute inset-0 bg-primary/20 rounded-2xl border border-primary/30"
+                  className="absolute inset-0 bg-gradient-to-r from-sky-500/25 to-indigo-500/25 rounded-2xl border border-sky-400/40 shadow-[0_0_14px_rgba(56,189,248,0.35)]"
                   transition={{ type: "spring", stiffness: 450, damping: 30 }}
                 />
               )}
 
               <div
                 className={`relative z-10 transition-transform ${
-                  isActive ? "text-primary scale-110 drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]" : "text-muted-foreground/60 hover:text-muted-foreground"
+                  isActive ? "text-sky-400 scale-110 drop-shadow-[0_0_10px_rgba(56,189,248,0.7)]" : "text-muted-foreground/60 hover:text-muted-foreground"
                 }`}
               >
                 {item.icon}
