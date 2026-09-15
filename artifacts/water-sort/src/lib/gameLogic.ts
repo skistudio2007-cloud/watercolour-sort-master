@@ -7,49 +7,49 @@ export type Color =
   | "emerald" | "violet";
 
 export const COLOR_HEX: Record<Color, string> = {
-  red:     "#EF4444", // Pure Vivid Crimson Ruby Red
-  blue:    "#2563EB", // Pure Vivid Sapphire Royal Blue
-  yellow:  "#FACC15", // Pure Bright Sunshine Yellow
-  green:   "#16A34A", // Pure Vivid Emerald Green
-  orange:  "#F97316", // Pure Glowing Tangerine Orange
-  purple:  "#9333EA", // Pure Electric Purple
-  pink:    "#EC4899", // Pure Radiant Hot Pink
-  cyan:    "#06B6D4", // Pure Glowing Cyan Turquoise
-  lime:    "#84CC16", // Pure Electric Lime
-  amber:   "#F59E0B", // Pure Golden Honey Amber
-  teal:    "#0D9488", // Pure Deep Sea Teal
-  indigo:  "#4F46E5", // Pure Deep Electric Indigo
-  magenta: "#C026D3", // Pure Rich Magenta
-  coral:   "#FB7185", // Pure Bright Coral Rose
-  emerald: "#059669", // Pure Deep Mint Emerald
-  violet:  "#7C3AED", // Pure Deep Royal Violet
-  sky:     "#38BDF8", // Pure Crystal Sky Blue
-  rose:    "#E11D48", // Pure Scarlet Rose
-  brown:   "#92400E", // Pure Warm Caramel Brown
-  olive:   "#65A30D", // Pure Olive Green
+  red:     "#E05252", // Soothing Rich Crimson Coral
+  blue:    "#3B82F6", // Calm Sapphire Ocean Blue
+  yellow:  "#EAB308", // Warm Golden Amber Sunflower
+  green:   "#10B981", // Fresh Calming Mint Jade
+  orange:  "#F97316", // Warm Sweet Papaya Orange
+  purple:  "#9333EA", // Elegant Royal Plum Violet
+  pink:    "#EC4899", // Soft Rose Petal Pink
+  cyan:    "#06B6D4", // Clear Azure Lagoon Cyan
+  lime:    "#84CC16", // Gentle Crisp Kiwi Green
+  amber:   "#D97706", // Deep Honey Caramel
+  teal:    "#0D9488", // Serene Deep Ocean Teal
+  indigo:  "#4F46E5", // Deep Velvet Twilight Indigo
+  magenta: "#C026D3", // Soft Orchid Magenta
+  coral:   "#FB7185", // Delicate Sunset Coral
+  emerald: "#059669", // Deep Pine Forest Emerald
+  violet:  "#7C3AED", // Mellow Wisteria Violet
+  sky:     "#38BDF8", // Gentle Morning Sky Blue
+  rose:    "#E11D48", // Velvety Crimson Rose
+  brown:   "#92400E", // Warm Cedar Bark Brown
+  olive:   "#65A30D", // Relaxing Herbal Olive
 };
 
 export const COLOR_GRADIENT: Record<Color, [string, string]> = {
   red:     ["#F87171", "#DC2626"],
-  blue:    ["#3B82F6", "#1D4ED8"],
-  yellow:  ["#FDE047", "#EAB308"],
-  green:   ["#22C55E", "#15803D"],
+  blue:    ["#60A5FA", "#2563EB"],
+  yellow:  ["#FDE047", "#CA8A04"],
+  green:   ["#34D399", "#059669"],
   orange:  ["#FB923C", "#EA580C"],
   purple:  ["#A855F7", "#7E22CE"],
   pink:    ["#F472B6", "#DB2777"],
-  cyan:    ["#22D3EE", "#0891B2"],
+  cyan:    ["#38BDF8", "#0891B2"],
   lime:    ["#A3E635", "#65A30D"],
-  amber:   ["#FBBF24", "#D97706"],
-  teal:    ["#14B8A6", "#0F766E"],
-  indigo:  ["#6366F1", "#4338CA"],
-  magenta: ["#D946EF", "#A21CAF"],
-  coral:   ["#FDA4AF", "#F43F5E"],
-  emerald: ["#10B981", "#047857"],
-  violet:  ["#8B5CF6", "#6D28D9"],
+  amber:   ["#FBBF24", "#B45309"],
+  teal:    ["#2DD4BF", "#0F766E"],
+  indigo:  ["#818CF8", "#4338CA"],
+  magenta: ["#E879F9", "#A21CAF"],
+  coral:   ["#FDA4AF", "#E11D48"],
+  emerald: ["#34D399", "#047857"],
+  violet:  ["#A78BFA", "#6D28D9"],
   sky:     ["#7DD3FC", "#0284C7"],
   rose:    ["#FB7185", "#BE123C"],
   brown:   ["#B45309", "#78350F"],
-  olive:   ["#84CC16", "#4D7C0F"],
+  olive:   ["#A3E635", "#4D7C0F"],
 };
 
 // Accessibility Symbols for Colorblind Support

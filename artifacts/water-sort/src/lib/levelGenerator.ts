@@ -59,23 +59,24 @@ export const MILESTONE_LEVELS = [
 ];
 
 export function isMilestoneLevel(levelId: number): boolean {
-  return MILESTONE_LEVELS.includes(levelId);
+  return levelId % 10 === 0;
 }
 
 export function getMilestoneTitle(levelId: number): string {
   switch (levelId) {
-    case 10:    return "Apprentice Sort";
-    case 25:    return "Silver Pour";
-    case 50:    return "Chromatic Initiate";
-    case 100:   return "Centurion Alchemist";
-    case 250:   return "Prism Virtuoso";
-    case 500:   return "Liquid Grandmaster";
-    case 1000:  return "Millennium Savant";
-    case 2500:  return "Master of Viscosity";
-    case 5000:  return "Halfway to Infinity";
-    case 7500:  return "Apex Alchemist";
-    case 10000: return "Eternal Zenith Master";
-    default:    return "Milestone Triumph";
+    case 10:    return "Boss: Apprentice Sort";
+    case 20:    return "Boss: Novice Alchemist";
+    case 30:    return "Boss: Chromatic Trial";
+    case 50:    return "Boss: Prism Virtuoso";
+    case 100:   return "Boss: Centurion Alchemist";
+    case 250:   return "Boss: Elemental Master";
+    case 500:   return "Boss: Liquid Grandmaster";
+    case 1000:  return "Boss: Millennium Savant";
+    case 2500:  return "Boss: Master of Viscosity";
+    case 5000:  return "Boss: Halfway to Infinity";
+    case 7500:  return "Boss: Apex Alchemist";
+    case 10000: return "Final Boss: Eternal Zenith Master";
+    default:    return `Boss: Level ${levelId} Challenge`;
   }
 }
 
@@ -88,14 +89,50 @@ interface GenConfig {
 }
 
 export function getLevelConfig(levelId: number): GenConfig {
+  const isEvery10th = levelId % 10 === 0;
+
   // 1–10: Engaging Tutorial (Standard 2 empty tubes to guarantee 100% solvability)
   if (levelId <= 3) {
     return { numColors: 3, emptyTubes: 2, difficulty: "tutorial", parMoves: 8, scrambleMoves: 16 + levelId * 2 };
   }
-  if (levelId <= 10) {
+  if (levelId < 10) {
     return { numColors: 4, emptyTubes: 2, difficulty: "tutorial", parMoves: 12, scrambleMoves: 34 + levelId * 2 };
   }
-  if (levelId <= 20) {
+
+  // ── SPECIAL HARDEST BOSS CHALLENGE ON EVERY 10TH LEVEL (10, 20, 30... 10,000) ──
+  if (isEvery10th) {
+    if (levelId === 10) {
+      return { numColors: 5, emptyTubes: 2, difficulty: "hard", parMoves: 22, scrambleMoves: 60 };
+    }
+    if (levelId === 20) {
+      return { numColors: 6, emptyTubes: 2, difficulty: "hard", parMoves: 28, scrambleMoves: 75 };
+    }
+    if (levelId <= 50) {
+      return { numColors: 7, emptyTubes: 2, difficulty: "hard", parMoves: 34, scrambleMoves: 90 };
+    }
+    if (levelId <= 100) {
+      return { numColors: 8, emptyTubes: 2, difficulty: "hard", parMoves: 40, scrambleMoves: 105 };
+    }
+    if (levelId <= 500) {
+      return { numColors: 10, emptyTubes: 2, difficulty: "hard", parMoves: 50, scrambleMoves: 130 };
+    }
+    if (levelId <= 1500) {
+      return { numColors: 12, emptyTubes: 2, difficulty: "hard", parMoves: 65, scrambleMoves: 160 };
+    }
+    if (levelId <= 3000) {
+      return { numColors: 14, emptyTubes: 2, difficulty: "veryhard", parMoves: 80, scrambleMoves: 190 };
+    }
+    return {
+      numColors: 15,
+      emptyTubes: 2,
+      difficulty: "master",
+      parMoves: 95,
+      scrambleMoves: 240,
+    };
+  }
+
+  // Standard progressive levels (11–20)
+  if (levelId < 20) {
     return { numColors: 4, emptyTubes: 2, difficulty: "tutorial", parMoves: 15, scrambleMoves: 40 + levelId * 2 };
   }
 
