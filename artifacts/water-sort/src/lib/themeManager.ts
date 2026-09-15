@@ -1,7 +1,8 @@
 // ─── Theme & Background Management Engine ────────────────────────────────────
 
 export type BackgroundId =
-  | "deep_ocean"        // Deep Ocean (Default)
+  | "pure_white"        // Pure Pearl White Studio (New Default)
+  | "deep_ocean"        // Deep Ocean
   | "midnight_blue"      // Midnight Blue
   | "dark_purple"        // Dark Purple
   | "moonlight"          // Moonlight
@@ -25,6 +26,17 @@ export interface BackgroundConfig {
 }
 
 export const BACKGROUNDS: BackgroundConfig[] = [
+  {
+    id: "pure_white",
+    name: "Pure Pearl White",
+    gradient: "linear-gradient(165deg, #071326 0%, #0c2040 50%, #040d1a 100%)",
+    lightGradient: "linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 45%, #F1F5F9 100%)",
+    accent: "#0284C7",
+    isDark: false,
+    bubbleColor: "rgba(56, 189, 248, 0.2)",
+    lightBubbleColor: "rgba(14, 165, 233, 0.35)",
+    desc: "Pristine white pearl studio with crystal fluid reflections",
+  },
   {
     id: "deep_ocean",
     name: "Deep Ocean",
@@ -218,7 +230,7 @@ const KEY_THEME = "ws2_active_theme";
 const KEY_UNLOCKED_BGS = "ws2_unlocked_bgs";
 const KEY_UNLOCKED_THEMES = "ws2_unlocked_theme_styles";
 
-export const DEFAULT_FREE_BGS: BackgroundId[] = ["deep_ocean", "midnight_blue"];
+export const DEFAULT_FREE_BGS: BackgroundId[] = ["pure_white", "deep_ocean", "midnight_blue"];
 export const DEFAULT_FREE_THEMES: ThemeStyle[] = ["classic", "ocean"];
 
 export function loadUnlockedBackgrounds(): BackgroundId[] {
@@ -292,7 +304,7 @@ export function getSavedBackground(): BackgroundId {
   } catch {
     // Ignore
   }
-  return "deep_ocean";
+  return "pure_white";
 }
 
 export function saveBackground(bg: BackgroundId): void {

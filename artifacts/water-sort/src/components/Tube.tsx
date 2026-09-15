@@ -216,7 +216,11 @@ export default function Tube({
       <div className="w-full h-full relative overflow-visible">
         <svg
           viewBox="0 0 60 180"
-          className="w-full h-full overflow-visible drop-shadow-[0_8px_18px_rgba(0,0,0,0.5)]"
+          className={`w-full h-full overflow-visible ${
+            isDark
+              ? "drop-shadow-[0_12px_22px_rgba(0,0,0,0.65)]"
+              : "drop-shadow-[0_14px_24px_rgba(15,23,42,0.18)]"
+          }`}
         >
           <defs>
             {/* SVG Cavity ClipPath for Liquid Layers */}

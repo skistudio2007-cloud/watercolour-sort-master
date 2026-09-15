@@ -87,7 +87,7 @@ function defaultSettings(): Settings {
     musicEnabled: false,
     sfxVolume: 0.7,
     musicVolume: 0.4,
-    darkMode: true,
+    darkMode: false, // Default to clean modern White Background
     vibration: true,
     colorBlindMode: false,
     showTimer: true,
