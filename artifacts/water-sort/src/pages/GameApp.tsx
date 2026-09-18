@@ -12,6 +12,7 @@ import ShopScreen from "@/pages/ShopScreen";
 import LeaderboardScreen from "@/pages/LeaderboardScreen";
 import ProfileScreen from "@/pages/ProfileScreen";
 import CollectionScreen from "@/pages/CollectionScreen";
+import ChallengesScreen from "@/pages/ChallengesScreen";
 import BackgroundLayer from "@/components/BackgroundLayer";
 import BottomNav from "@/components/BottomNav";
 import AchievementToast from "@/components/AchievementToast";
@@ -56,6 +57,7 @@ export default function GameApp() {
               {screen === "menu" && <MenuScreen />}
               {screen === "levels" && <LevelSelectScreen />}
               {screen === "game" && <GameScreen />}
+              {screen === "challenges" && <ChallengesScreen />}
               {screen === "achievements" && <AchievementsScreen />}
               {screen === "settings" && <SettingsScreen />}
               {screen === "stats" && <StatsScreen />}

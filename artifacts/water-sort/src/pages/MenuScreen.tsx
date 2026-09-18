@@ -160,7 +160,7 @@ export default function MenuScreen() {
           {/* Ambient Cyber Aura behind tube */}
           <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/25 via-blue-500/20 to-purple-600/30 rounded-full blur-2xl pointer-events-none" />
 
-          <div className="glass-test-tube w-22 h-36 relative flex flex-col justify-end p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.45)] border-2 border-white/40 dark:border-white/20">
+          <div className="glass-test-tube w-[84px] h-[144px] relative flex flex-col justify-end p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] border-2 border-white/40 dark:border-white/20">
             {/* Tube glass rim */}
             <div className="glass-rim" />
             <div className="glass-specular-highlight" />
@@ -200,6 +200,8 @@ export default function MenuScreen() {
               </motion.div>
             </div>
           </div>
+          {/* Subtle Ground Contact Shadow */}
+          <div className="w-16 h-2.5 rounded-full bg-slate-900/20 dark:bg-black/45 blur-[2.5px] mx-auto mt-2 pointer-events-none" />
         </motion.div>
 
         {/* Title */}
@@ -207,19 +209,22 @@ export default function MenuScreen() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="title-font text-3xl sm:text-4xl font-black text-center text-foreground tracking-tight drop-shadow-md"
+          className="title-font text-3xl sm:text-4xl font-black text-center text-foreground tracking-tight drop-shadow-sm flex items-center justify-center gap-2"
         >
-          {t("game_title")}
+          <span className="bg-gradient-to-r from-sky-500 via-teal-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-sm">
+            WATER
+          </span>
+          <span>SORT</span>
         </motion.h1>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="flex items-center gap-1.5 mt-1.5 px-3 py-0.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm"
+          className="flex items-center gap-2 mt-1 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/25 backdrop-blur-md shadow-sm"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-          <span className="mono-label text-[9.5px] uppercase text-primary font-black tracking-widest">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-[10px] uppercase text-primary font-black tracking-widest">
             {t("game_subtitle")}
           </span>
         </motion.div>

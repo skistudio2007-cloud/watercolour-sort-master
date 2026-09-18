@@ -148,6 +148,22 @@ export default function Tube({
         zIndex: isPourSource ? 40 : isSelected ? 30 : 10,
       }}
     >
+      {/* Dynamic 3D Physical Contact Shadow Underneath Tube */}
+      <motion.div
+        animate={{
+          scale: isSelected || isPourSource ? 0.6 : 1,
+          opacity: isSelected || isPourSource ? 0.18 : isDark ? 0.55 : 0.35,
+          y: isSelected || isPourSource ? 18 : 0,
+        }}
+        transition={{ duration: 0.24, ease: "easeOut" }}
+        className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-10 h-2.5 rounded-full pointer-events-none blur-[2.5px] -z-10"
+        style={{
+          background: isDark
+            ? "radial-gradient(ellipse, rgba(0,0,0,0.9) 0%, transparent 75%)"
+            : "radial-gradient(ellipse, rgba(15,23,42,0.32) 0%, transparent 75%)",
+        }}
+      />
+
       {/* Selected Ambient Glow (Soft, controlled, non-neon) */}
       <AnimatePresence>
         {isSelected && topColor && (

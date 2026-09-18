@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { useGame } from "@/contexts/GameContext";
 import { motion } from "framer-motion";
-import { Trophy, Star, ArrowRight, RotateCcw, Home, Sparkles } from "lucide-react";
-import { calcStars, getLevel, getDifficultyColor, getDifficultyLabel, isMilestoneLevel, getMilestoneTitle } from "@/lib/levelGenerator";
+import { Trophy, Star, ArrowRight, RotateCcw, Home, Sparkles, Crown, Flame } from "lucide-react";
+import { calcStars, getLevel, getDifficultyColor, getDifficultyLabel, isMilestoneLevel, isSuperHardLevel, getMilestoneTitle } from "@/lib/levelGenerator";
 import { Haptics } from "@/lib/hapticManager";
 import { SFX } from "@/lib/soundManager";
 import { t } from "@/lib/localization";
@@ -13,6 +13,7 @@ export default function LevelCompleteOverlay() {
   const moves = state.gameState?.moveCount ?? 0;
   const stars = calcStars(level.parMoves, moves);
   const isMilestone = isMilestoneLevel(state.currentLevel);
+  const isSuperHard = isSuperHardLevel(state.currentLevel);
 
   const progress = state.progress.levels[state.currentLevel] || {
     stars,
@@ -81,22 +82,36 @@ export default function LevelCompleteOverlay() {
         transition={{ type: "spring", bounce: 0.45, delay: 0.1 }}
         className="w-full max-w-sm bg-card/95 border border-white/20 dark:border-white/10 shadow-2xl rounded-[2rem] p-7 flex flex-col items-center relative overflow-hidden backdrop-blur-xl"
       >
-        {/* Milestone Top Banner */}
-        {isMilestone && (
-          <div className="w-full bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 text-center text-xs font-black py-1.5 px-3 rounded-full mb-4 flex items-center justify-center gap-1.5 shadow-md">
-            <Sparkles className="w-4 h-4 fill-current" />
-            {getMilestoneTitle(state.currentLevel)}
+        {/* Super Hard Boss Top Banner */}
+        {isSuperHard ? (
+          <div className="w-full bg-gradient-to-r from-purple-600 via-amber-500 to-purple-600 text-white text-center text-xs font-black py-2 px-3 rounded-full mb-4 flex items-center justify-center gap-2 shadow-lg ring-2 ring-amber-400/50">
+            <Crown className="w-4 h-4 text-amber-300 fill-amber-300 animate-bounce" />
+            <span className="tracking-wide uppercase">{getMilestoneTitle(state.currentLevel)}</span>
+            <Sparkles className="w-4 h-4 text-purple-200 fill-current" />
           </div>
-        )}
+        ) : isMilestone ? (
+          <div className="w-full bg-gradient-to-r from-rose-500 to-amber-500 text-white text-center text-xs font-black py-1.5 px-3 rounded-full mb-4 flex items-center justify-center gap-1.5 shadow-md">
+            <Flame className="w-4 h-4 text-amber-200 fill-current animate-pulse" />
+            <span>{getMilestoneTitle(state.currentLevel)}</span>
+          </div>
+        ) : null}
 
-        {/* Trophy Emblem */}
+        {/* Trophy / Crown Emblem */}
         <motion.div
           initial={{ rotate: -180, scale: 0 }}
           animate={{ rotate: 0, scale: 1 }}
           transition={{ type: "spring", delay: 0.2 }}
-          className="w-20 h-20 bg-gradient-to-br from-amber-400 via-yellow-400 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg mb-4 shadow-amber-500/30"
+          className={`w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg mb-4 ${
+            isSuperHard
+              ? "bg-gradient-to-br from-amber-400 via-purple-600 to-amber-500 shadow-purple-500/40 ring-4 ring-amber-400/40"
+              : "bg-gradient-to-br from-amber-400 via-yellow-400 to-amber-600 shadow-amber-500/30"
+          }`}
         >
-          <Trophy className="w-10 h-10 text-white stroke-[2.2]" />
+          {isSuperHard ? (
+            <Crown className="w-11 h-11 text-white fill-amber-200/40 stroke-[2.2]" />
+          ) : (
+            <Trophy className="w-10 h-10 text-white stroke-[2.2]" />
+          )}
         </motion.div>
 
         <h2 className="title-font text-2xl font-black mb-0.5 text-foreground text-center">
