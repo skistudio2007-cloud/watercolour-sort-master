@@ -6,8 +6,10 @@ import {
   getChapterName,
   getLevelDifficulty,
   getDifficultyColor,
+  isMilestoneLevel,
+  isSuperHardLevel,
 } from "@/lib/levelGenerator";
-import { ArrowLeft, Lock, Star, ChevronLeft, ChevronRight, Navigation } from "lucide-react";
+import { ArrowLeft, Lock, Star, ChevronLeft, ChevronRight, Navigation, Crown, Flame } from "lucide-react";
 import { Haptics } from "@/lib/hapticManager";
 import { SFX } from "@/lib/soundManager";
 import { t } from "@/lib/localization";
@@ -142,6 +144,8 @@ export default function LevelSelectScreen() {
             const isCurrent = levelId === currentLevel;
             const lvlProgress = progress.levels[levelId];
             const diffColor = getDifficultyColor(getLevelDifficulty(levelId));
+            const isSuper = isSuperHardLevel(levelId);
+            const isMilestone = isMilestoneLevel(levelId);
 
             return (
               <motion.button
@@ -152,15 +156,26 @@ export default function LevelSelectScreen() {
                   isCurrent
                     ? "bg-primary text-primary-foreground border-2 border-primary ring-2 ring-primary/40 shadow-md scale-105 z-10"
                     : isUnlocked
-                    ? lvlProgress?.completed
+                    ? isSuper
+                      ? "bg-amber-500/10 text-foreground border-2 border-amber-400/80 ring-1 ring-amber-400/40 shadow-amber-500/20"
+                      : isMilestone
+                      ? "bg-rose-500/10 text-foreground border border-rose-400/70"
+                      : lvlProgress?.completed
                       ? "bg-card/90 text-foreground border border-emerald-500/40"
                       : "bg-card text-foreground border border-border hover:border-primary/50"
                     : "bg-secondary/40 text-muted-foreground/40 border border-transparent cursor-not-allowed"
                 }`}
               >
+                {/* Boss / Milestone badges */}
+                {isSuper ? (
+                  <Crown className="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 text-amber-500 fill-amber-400 drop-shadow-sm z-10" />
+                ) : isMilestone ? (
+                  <Flame className="absolute -top-1.5 -left-1.5 w-3 h-3 text-rose-500 fill-rose-500 drop-shadow-sm z-10" />
+                ) : null}
+
                 {isUnlocked ? (
                   <>
-                    <span className="text-sm">{levelId}</span>
+                    <span className={`text-sm ${isSuper ? "font-black text-amber-500" : ""}`}>{levelId}</span>
                     {lvlProgress?.completed && (
                       <div className="flex gap-0.5 mt-0.5">
                         {[1, 2, 3].map((s) => (

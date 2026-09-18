@@ -873,12 +873,18 @@ export function GameProvider({
       prevComplete.current =
         true;
 
-      SFX.complete();
-
       const level =
         getLevel(
           gs.levelId,
         );
+
+      if (level.isSuperHard) {
+        SFX.bossComplete();
+      } else if (level.isMilestone) {
+        SFX.milestone();
+      } else {
+        SFX.complete();
+      }
 
       const stars =
         calcStars(
@@ -1164,7 +1170,8 @@ export function GameProvider({
               tubes[idx],
             )
           ) {
-            SFX.pour();
+            const currentFill = tubes[idx].colors.length / 4;
+            SFX.pour(currentFill);
 
             updateStats({
               totalPours: 1,

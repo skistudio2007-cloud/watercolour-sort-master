@@ -15,6 +15,7 @@ export type Difficulty =
   | "easy"
   | "medium"
   | "hard"
+  | "superhard"
   | "veryhard"
   | "expert"
   | "master";
@@ -29,6 +30,7 @@ export interface LevelDefinition {
   parMoves: number;
   isMilestone: boolean;
   milestoneTitle?: string;
+  isSuperHard?: boolean;
 }
 
 export const ALL_COLORS: Color[] = [
@@ -54,29 +56,41 @@ export const ALL_COLORS: Color[] = [
   "olive",
 ];
 
-export const MILESTONE_LEVELS = [
-  10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 7500, 10000,
-];
-
 export function isMilestoneLevel(levelId: number): boolean {
   return levelId % 10 === 0;
 }
 
+export function isSuperHardLevel(levelId: number): boolean {
+  return levelId % 50 === 0;
+}
+
 export function getMilestoneTitle(levelId: number): string {
+  if (levelId % 50 === 0) {
+    switch (levelId) {
+      case 50:    return "★ SUPER HARD: Chromatic Titan ★";
+      case 100:   return "★ SUPER HARD: Centurion Overlord ★";
+      case 250:   return "★ SUPER HARD: Prismatic Demiurge ★";
+      case 500:   return "★ SUPER HARD: Liquid Grandmaster ★";
+      case 1000:  return "★ SUPER HARD: Millennium Apex ★";
+      case 2500:  return "★ SUPER HARD: Master of Viscosity ★";
+      case 5000:  return "★ SUPER HARD: Halfway to Infinity ★";
+      case 7500:  return "★ SUPER HARD: Astral Alchemist ★";
+      case 10000: return "★ ULTIMATE APEX: Eternal Zenith Master ★";
+      default:    return `★ SUPER HARD: Level ${levelId} Boss ★`;
+    }
+  }
+
+  // Every 10th level (10, 20, 30, 40, 60...)
   switch (levelId) {
-    case 10:    return "Boss: Apprentice Sort";
-    case 20:    return "Boss: Novice Alchemist";
-    case 30:    return "Boss: Chromatic Trial";
-    case 50:    return "Boss: Prism Virtuoso";
-    case 100:   return "Boss: Centurion Alchemist";
-    case 250:   return "Boss: Elemental Master";
-    case 500:   return "Boss: Liquid Grandmaster";
-    case 1000:  return "Boss: Millennium Savant";
-    case 2500:  return "Boss: Master of Viscosity";
-    case 5000:  return "Boss: Halfway to Infinity";
-    case 7500:  return "Boss: Apex Alchemist";
-    case 10000: return "Final Boss: Eternal Zenith Master";
-    default:    return `Boss: Level ${levelId} Challenge`;
+    case 10:    return "Hard Challenge: Apprentice Sort";
+    case 20:    return "Hard Challenge: Novice Alchemist";
+    case 30:    return "Hard Challenge: Chromatic Trial";
+    case 40:    return "Hard Challenge: Labyrinth Flow";
+    case 60:    return "Hard Challenge: Tangled Waters";
+    case 70:    return "Hard Challenge: Viscous Crucible";
+    case 80:    return "Hard Challenge: Prism Spark";
+    case 90:    return "Hard Challenge: Alchemical Gate";
+    default:    return `Hard Challenge: Level ${levelId}`;
   }
 }
 
@@ -89,113 +103,110 @@ interface GenConfig {
 }
 
 export function getLevelConfig(levelId: number): GenConfig {
+  const isSuperHard = levelId % 50 === 0;
   const isEvery10th = levelId % 10 === 0;
 
-  // 1–10: Engaging Tutorial (Standard 2 empty tubes to guarantee 100% solvability)
-  if (levelId <= 3) {
-    return { numColors: 3, emptyTubes: 2, difficulty: "tutorial", parMoves: 8, scrambleMoves: 16 + levelId * 2 };
+  // 1–9: Engaging Tutorial & Quick Learn
+  if (levelId <= 2) {
+    return { numColors: 3, emptyTubes: 2, difficulty: "tutorial", parMoves: 8, scrambleMoves: 18 + levelId * 2 };
   }
   if (levelId < 10) {
-    return { numColors: 4, emptyTubes: 2, difficulty: "tutorial", parMoves: 12, scrambleMoves: 34 + levelId * 2 };
+    return { numColors: 4, emptyTubes: 2, difficulty: "tutorial", parMoves: 14, scrambleMoves: 38 + levelId * 2 };
   }
 
-  // ── SPECIAL HARDEST BOSS CHALLENGE ON EVERY 10TH LEVEL (10, 20, 30... 10,000) ──
-  if (isEvery10th) {
-    if (levelId === 10) {
-      return { numColors: 5, emptyTubes: 2, difficulty: "hard", parMoves: 22, scrambleMoves: 60 };
+  // ── 1. SUPER HARD BOSS LEVELS (50, 100, 150, 200, 250, 500 ... 10,000) ──
+  if (isSuperHard) {
+    if (levelId === 50) {
+      return { numColors: 9, emptyTubes: 2, difficulty: "superhard", parMoves: 44, scrambleMoves: 110 };
     }
-    if (levelId === 20) {
-      return { numColors: 6, emptyTubes: 2, difficulty: "hard", parMoves: 28, scrambleMoves: 75 };
-    }
-    if (levelId <= 50) {
-      return { numColors: 7, emptyTubes: 2, difficulty: "hard", parMoves: 34, scrambleMoves: 90 };
-    }
-    if (levelId <= 100) {
-      return { numColors: 8, emptyTubes: 2, difficulty: "hard", parMoves: 40, scrambleMoves: 105 };
+    if (levelId === 100) {
+      return { numColors: 11, emptyTubes: 2, difficulty: "superhard", parMoves: 56, scrambleMoves: 145 };
     }
     if (levelId <= 500) {
-      return { numColors: 10, emptyTubes: 2, difficulty: "hard", parMoves: 50, scrambleMoves: 130 };
+      return { numColors: 13, emptyTubes: 2, difficulty: "superhard", parMoves: 68, scrambleMoves: 180 };
+    }
+    if (levelId <= 2500) {
+      return { numColors: 15, emptyTubes: 2, difficulty: "superhard", parMoves: 85, scrambleMoves: 220 };
+    }
+    return {
+      numColors: 16,
+      emptyTubes: 2,
+      difficulty: "superhard",
+      parMoves: 105,
+      scrambleMoves: 260,
+    };
+  }
+
+  // ── 2. HARD CHALLENGE LEVELS (10, 20, 30, 40, 60, 70, 80, 90 ... 9,990) ──
+  if (isEvery10th) {
+    if (levelId === 10) {
+      return { numColors: 5, emptyTubes: 2, difficulty: "hard", parMoves: 22, scrambleMoves: 64 };
+    }
+    if (levelId === 20) {
+      return { numColors: 6, emptyTubes: 2, difficulty: "hard", parMoves: 28, scrambleMoves: 80 };
+    }
+    if (levelId <= 40) {
+      return { numColors: 7, emptyTubes: 2, difficulty: "hard", parMoves: 34, scrambleMoves: 95 };
+    }
+    if (levelId <= 90) {
+      return { numColors: 8, emptyTubes: 2, difficulty: "hard", parMoves: 40, scrambleMoves: 110 };
+    }
+    if (levelId <= 300) {
+      return { numColors: 10, emptyTubes: 2, difficulty: "hard", parMoves: 50, scrambleMoves: 135 };
     }
     if (levelId <= 1500) {
-      return { numColors: 12, emptyTubes: 2, difficulty: "hard", parMoves: 65, scrambleMoves: 160 };
+      return { numColors: 12, emptyTubes: 2, difficulty: "hard", parMoves: 64, scrambleMoves: 165 };
     }
-    if (levelId <= 3000) {
-      return { numColors: 14, emptyTubes: 2, difficulty: "veryhard", parMoves: 80, scrambleMoves: 190 };
+    if (levelId <= 4000) {
+      return { numColors: 14, emptyTubes: 2, difficulty: "hard", parMoves: 78, scrambleMoves: 195 };
     }
     return {
       numColors: 15,
       emptyTubes: 2,
-      difficulty: "master",
-      parMoves: 95,
+      difficulty: "hard",
+      parMoves: 92,
       scrambleMoves: 240,
     };
   }
 
-  // Standard progressive levels (11–20)
+  // ── 3. STANDARD PROGRESSIVE LEVELS (Made deeper & more engaging than previous) ──
   if (levelId < 20) {
-    return { numColors: 4, emptyTubes: 2, difficulty: "tutorial", parMoves: 15, scrambleMoves: 40 + levelId * 2 };
+    return { numColors: 4, emptyTubes: 2, difficulty: "easy", parMoves: 16, scrambleMoves: 44 + levelId * 2 };
   }
-
-  // 21–100: Easy to Moderate
   if (levelId <= 40) {
-    return { numColors: 5, emptyTubes: 2, difficulty: "easy", parMoves: 18, scrambleMoves: 48 + (levelId % 10) * 2 };
+    return { numColors: 5, emptyTubes: 2, difficulty: "easy", parMoves: 20, scrambleMoves: 54 + (levelId % 10) * 2 };
   }
-  if (levelId <= 70) {
-    return { numColors: 6, emptyTubes: 2, difficulty: "easy", parMoves: 22, scrambleMoves: 56 + (levelId % 15) * 2 };
+  if (levelId <= 80) {
+    return { numColors: 6, emptyTubes: 2, difficulty: "medium", parMoves: 26, scrambleMoves: 68 + (levelId % 15) * 2 };
   }
-  if (levelId <= 100) {
-    return { numColors: 7, emptyTubes: 2, difficulty: "easy", parMoves: 26, scrambleMoves: 64 + (levelId % 20) * 2 };
+  if (levelId <= 150) {
+    return { numColors: 7, emptyTubes: 2, difficulty: "medium", parMoves: 32, scrambleMoves: 78 + (levelId % 20) * 2 };
   }
-
-  // 101–500: Medium
-  if (levelId <= 250) {
-    return { numColors: 8, emptyTubes: 2, difficulty: "medium", parMoves: 32, scrambleMoves: 72 + (levelId % 25) * 2 };
+  if (levelId <= 300) {
+    return { numColors: 8, emptyTubes: 2, difficulty: "medium", parMoves: 38, scrambleMoves: 88 + (levelId % 25) * 2 };
   }
-  if (levelId <= 500) {
-    return { numColors: 9, emptyTubes: 2, difficulty: "medium", parMoves: 38, scrambleMoves: 82 + (levelId % 30) * 2 };
+  if (levelId <= 600) {
+    return { numColors: 9, emptyTubes: 2, difficulty: "medium", parMoves: 44, scrambleMoves: 98 + (levelId % 30) * 2 };
   }
-
-  // 501–1,500: Medium to Hard
-  if (levelId <= 1000) {
-    return { numColors: 10, emptyTubes: 2, difficulty: "medium", parMoves: 46, scrambleMoves: 96 + (levelId % 40) * 2 };
+  if (levelId <= 1200) {
+    return { numColors: 10, emptyTubes: 2, difficulty: "veryhard", parMoves: 52, scrambleMoves: 115 + (levelId % 40) * 2 };
   }
-  if (levelId <= 1500) {
-    return { numColors: 11, emptyTubes: 2, difficulty: "medium", parMoves: 54, scrambleMoves: 108 + (levelId % 50) * 2 };
-  }
-
-  // 1,501–3,000: Hard
-  if (levelId <= 2200) {
-    return { numColors: 12, emptyTubes: 2, difficulty: "hard", parMoves: 62, scrambleMoves: 124 + (levelId % 60) * 2 };
-  }
-  if (levelId <= 3000) {
-    return { numColors: 13, emptyTubes: 2, difficulty: "hard", parMoves: 70, scrambleMoves: 140 + (levelId % 70) * 2 };
-  }
-
-  // 3,001–5,000: Very Hard
-  if (levelId <= 4000) {
-    return { numColors: 14, emptyTubes: 2, difficulty: "veryhard", parMoves: 80, scrambleMoves: 160 + (levelId % 80) * 2 };
+  if (levelId <= 2500) {
+    return { numColors: 11, emptyTubes: 2, difficulty: "veryhard", parMoves: 60, scrambleMoves: 130 + (levelId % 50) * 2 };
   }
   if (levelId <= 5000) {
-    return { numColors: 14, emptyTubes: 2, difficulty: "veryhard", parMoves: 90, scrambleMoves: 180 + (levelId % 90) * 2 };
+    return { numColors: 13, emptyTubes: 2, difficulty: "expert", parMoves: 72, scrambleMoves: 160 + (levelId % 70) * 2 };
   }
-
-  // 5,001–7,500: Expert
-  if (levelId <= 6200) {
-    return { numColors: 15, emptyTubes: 2, difficulty: "expert", parMoves: 102, scrambleMoves: 200 + (levelId % 100) * 2 };
-  }
-  if (levelId <= 7500) {
-    return { numColors: 15, emptyTubes: 2, difficulty: "expert", parMoves: 114, scrambleMoves: 220 + (levelId % 110) * 2 };
-  }
-
-  // 7,501–10,000: Master
   return {
-    numColors: Math.min(16, 14 + (levelId % 3)),
+    numColors: Math.min(15, 13 + (levelId % 3)),
     emptyTubes: 2,
     difficulty: "master",
-    parMoves: 128 + (levelId % 20),
-    scrambleMoves: 240 + (levelId % 120) * 2,
+    parMoves: 86 + (levelId % 20),
+    scrambleMoves: 210 + (levelId % 100) * 2,
   };
 }
+
+
 
 // ─── Fast Seeded PRNG (Mulberry32) ────────────────────────────────────────────
 
@@ -410,6 +421,7 @@ export function getLevel(levelId: number): LevelDefinition {
   const config = getLevelConfig(safeId);
   const tubes = generateSolvableTubes(safeId, config);
   const isMilestone = isMilestoneLevel(safeId);
+  const isSuperHard = isSuperHardLevel(safeId);
 
   const def: LevelDefinition = {
     id: safeId,
@@ -420,7 +432,8 @@ export function getLevel(levelId: number): LevelDefinition {
     difficulty: config.difficulty,
     parMoves: config.parMoves,
     isMilestone,
-    milestoneTitle: isMilestone ? getMilestoneTitle(safeId) : undefined,
+    milestoneTitle: (isMilestone || isSuperHard) ? getMilestoneTitle(safeId) : undefined,
+    isSuperHard,
   };
 
   if (LEVEL_CACHE.size >= MAX_CACHE_SIZE) {
@@ -442,6 +455,7 @@ export function getDifficultyLabel(difficulty: Difficulty): string {
     case "easy":     return "Easy";
     case "medium":   return "Medium";
     case "hard":     return "Hard";
+    case "superhard": return "Super Hard";
     case "veryhard": return "Very Hard";
     case "expert":   return "Expert";
     case "master":   return "Master";
@@ -454,6 +468,7 @@ export function getDifficultyColor(difficulty: Difficulty | string): string {
     case "easy":     return "#10B981"; // Emerald
     case "medium":   return "#F59E0B"; // Amber
     case "hard":     return "#EF4444"; // Red
+    case "superhard": return "#7C3AED"; // Vivid Royal Violet
     case "veryhard": return "#A855F7"; // Purple
     case "expert":   return "#EC4899"; // Pink
     case "master":   return "#EAB308"; // Gold

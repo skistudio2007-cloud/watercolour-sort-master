@@ -128,12 +128,14 @@ function playOrganicWaterSplash(duration = 0.45, gainVal = 0.15) {
 export const SFX = {
   // Crystal glass tactile tap
   tap() {
-    playHarmonicTone(784, 0.06, 0.15, 0, 650);
+    playHarmonicTone(1046.5, 0.05, 0.12, 0, 880);
+    playHarmonicTone(2093, 0.04, 0.06, 0.005);
   },
 
   // Elegant tube focus
   select() {
-    playHarmonicTone(587.33, 0.1, 0.24, 0, 880);
+    playHarmonicTone(659.25, 0.11, 0.22, 0, 987.77);
+    playHarmonicTone(1318.51, 0.09, 0.12, 0.02);
   },
 
   // Soft deselect drop
@@ -146,14 +148,16 @@ export const SFX = {
     playHarmonicTone(392, 0.12, 0.18, 0, 660);
   },
 
-  // Pure fluid pour with bubbling ripples
-  pour() {
-    playOrganicWaterSplash(0.5, 0.16);
-    // Dynamic bubbling drops at varied pitches
-    playHarmonicTone(880, 0.12, 0.18, 0.03, 680);
-    playHarmonicTone(1046.5, 0.14, 0.17, 0.1, 740);
-    playHarmonicTone(784, 0.15, 0.2, 0.18, 520);
-    playHarmonicTone(659.25, 0.18, 0.22, 0.27, 440);
+  // Pure fluid pour with bubbling ripples & pitch scaled to fill level
+  pour(fillRatio = 0.5) {
+    const clamped = Math.max(0, Math.min(1, fillRatio));
+    // Physical tube air-column resonance increases as liquid fills
+    const baseFreq = 520 + clamped * 380;
+    playOrganicWaterSplash(0.52, 0.17);
+    playHarmonicTone(baseFreq * 1.25, 0.12, 0.18, 0.02, baseFreq * 0.95);
+    playHarmonicTone(baseFreq * 1.5, 0.14, 0.16, 0.09, baseFreq * 1.1);
+    playHarmonicTone(baseFreq, 0.15, 0.2, 0.17, baseFreq * 0.85);
+    playHarmonicTone(baseFreq * 0.85, 0.18, 0.22, 0.26, baseFreq * 0.7);
   },
 
   // Droplet resonance
@@ -188,6 +192,19 @@ export const SFX = {
     });
     // Final high crystal sparkle
     playHarmonicTone(1760, 0.65, 0.16, 0.55);
+  },
+
+  // Epic Super Hard Apex Boss Completion Fanfare
+  bossComplete() {
+    const bass = [146.83, 220, 293.66];
+    bass.forEach((f, i) => playHarmonicTone(f, 0.85, 0.26, i * 0.05));
+
+    const fanfare = [369.99, 440, 587.33, 739.99, 880, 1174.66, 1479.98, 1760];
+    fanfare.forEach((f, i) => {
+      playHarmonicTone(f, 0.55, 0.22, 0.2 + i * 0.07);
+    });
+    playHarmonicTone(2349.32, 0.75, 0.18, 0.8);
+    playHarmonicTone(2959.96, 0.85, 0.15, 0.9);
   },
 
   // Rewind audio cue

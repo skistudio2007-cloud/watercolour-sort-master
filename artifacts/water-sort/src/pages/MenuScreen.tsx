@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   ShoppingBag,
   User,
+  Target,
 } from "lucide-react";
 
 import { useGame } from "@/contexts/GameContext";
@@ -238,6 +239,21 @@ export default function MenuScreen() {
           <span className="drop-shadow-sm">{t("play")}</span>
         </motion.button>
 
+        {/* Daily & Weekly Challenges Quick Access */}
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            Haptics.tap();
+            SFX.tap();
+            navigate("challenges");
+          }}
+          className="w-full py-2.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500/15 via-purple-500/15 to-cyan-500/15 hover:from-amber-500/25 hover:via-purple-500/25 hover:to-cyan-500/25 border border-amber-400/30 text-xs font-black text-foreground flex items-center justify-center gap-2 shadow-md backdrop-blur-md transition-all cursor-pointer"
+        >
+          <Target className="w-4 h-4 text-amber-500" />
+          <span>Daily & Weekly Challenges</span>
+        </motion.button>
+
         {/* Continue Level / Progress Indicator */}
         <motion.button
           whileTap={{ scale: 0.95 }}
@@ -246,7 +262,7 @@ export default function MenuScreen() {
             SFX.tap();
             navigate("levels");
           }}
-          className="text-xs font-black text-muted-foreground/90 hover:text-foreground flex items-center gap-2 transition-all py-1.5 px-4 rounded-xl bg-card/40 hover:bg-card/70 border border-white/10 shadow-sm"
+          className="text-xs font-black text-muted-foreground/90 hover:text-foreground flex items-center gap-2 transition-all py-1.5 px-4 rounded-xl bg-card/40 hover:bg-card/70 border border-white/10 shadow-sm cursor-pointer"
         >
           <span className="w-2 h-2 rounded-full bg-emerald-400" />
           <span>Continue Level {state.progress.maxUnlockedLevel}</span>

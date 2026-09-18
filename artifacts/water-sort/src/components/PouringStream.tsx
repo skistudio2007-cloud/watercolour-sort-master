@@ -214,6 +214,38 @@ export default function PouringStream({
             }}
           />
         ))}
+
+        {/* 6. Dynamic micro-splash droplets rebounding off water surface */}
+        {[-1, 0, 1].map((direction, idx) => (
+          <motion.div
+            key={`splash-${idx}`}
+            initial={{
+              x: coords.endX + direction * 3,
+              y: coords.endY,
+              scale: 0.8,
+              opacity: 0.9,
+            }}
+            animate={{
+              x: coords.endX + direction * 14,
+              y: coords.endY - (11 + idx * 2),
+              scale: [0.8, 1, 0],
+              opacity: [0.9, 0.7, 0],
+            }}
+            transition={{
+              duration: 0.4,
+              repeat: Infinity,
+              ease: "easeOut",
+              delay: idx * 0.12,
+            }}
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              width: "3px",
+              height: "3px",
+              backgroundColor: gradient[0],
+              filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.2))",
+            }}
+          />
+        ))}
       </AnimatePresence>
     </div>
   );

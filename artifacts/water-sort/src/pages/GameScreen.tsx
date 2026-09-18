@@ -12,12 +12,15 @@ import {
   Undo2,
   Sparkles,
   Settings,
+  Crown,
+  Flame,
 } from "lucide-react";
 import {
   getDifficultyColor,
   getDifficultyLabel,
   getLevelDifficulty,
   isMilestoneLevel,
+  isSuperHardLevel,
   getMilestoneTitle,
 } from "@/lib/levelGenerator";
 import { Haptics } from "@/lib/hapticManager";
@@ -122,6 +125,7 @@ export default function GameScreen() {
   const difficulty = getLevelDifficulty(state.currentLevel);
   const diffColor = getDifficultyColor(difficulty);
   const isMilestone = isMilestoneLevel(state.currentLevel);
+  const isSuperHard = isSuperHardLevel(state.currentLevel);
 
   const canUndo =
     state.gameState.history.length > 0 &&
@@ -186,15 +190,23 @@ export default function GameScreen() {
         </button>
 
         {/* Level Title & Difficulty inside Frosted Glass Capsule */}
-        <div className="glass-capsule-hud px-5 py-2 flex flex-col items-center shadow-lg">
+        <div className={`glass-capsule-hud px-5 py-2 flex flex-col items-center shadow-lg transition-all ${
+          isSuperHard
+            ? "border-amber-400/60 ring-2 ring-amber-400/40 shadow-[0_4px_20px_rgba(245,158,11,0.25)]"
+            : isMilestone
+            ? "border-rose-400/50 ring-1 ring-rose-400/30"
+            : ""
+        }`}>
           <div className="flex items-center gap-2.5">
-            <span className="title-font text-lg md:text-xl font-black text-foreground drop-shadow-sm">
+            <span className="title-font text-lg md:text-xl font-black text-foreground drop-shadow-sm flex items-center gap-1.5">
+              {isSuperHard && <Crown className="w-4 h-4 text-amber-500 fill-amber-400/30" />}
               {t("level")} {state.currentLevel}
             </span>
             <span
-              className="text-[9.5px] uppercase font-black px-2.5 py-0.5 rounded-full border shadow-sm"
+              className="text-[9.5px] uppercase font-black px-2.5 py-0.5 rounded-full border shadow-sm flex items-center gap-1"
               style={{ borderColor: diffColor, color: diffColor, backgroundColor: `${diffColor}18` }}
             >
+              {isSuperHard ? <Crown className="w-2.5 h-2.5" /> : isMilestone ? <Flame className="w-2.5 h-2.5" /> : null}
               {getDifficultyLabel(difficulty)}
             </span>
           </div>
@@ -220,11 +232,27 @@ export default function GameScreen() {
         </button>
       </header>
 
-      {/* Milestone Level Banner */}
-      {isMilestone && (
+      {/* Super Hard Boss Level Banner */}
+      {isSuperHard && (
         <div className="w-full flex justify-center px-4 -mt-1 mb-1 z-10">
-          <div className="bg-gradient-to-r from-amber-500/25 via-yellow-400/25 to-amber-500/25 border border-amber-400/50 backdrop-blur-md px-4 py-1 rounded-full text-[11px] font-black text-amber-400 flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.3)]">
-            <Sparkles className="w-3.5 h-3.5 animate-spin" /> {getMilestoneTitle(state.currentLevel)}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-gradient-to-r from-purple-600/25 via-amber-500/25 to-purple-600/25 border-2 border-amber-400/70 backdrop-blur-md px-5 py-1.5 rounded-full text-xs font-black text-amber-600 dark:text-amber-300 flex items-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.35)] ring-2 ring-purple-500/20"
+          >
+            <Crown className="w-4 h-4 text-amber-500" />
+            <span className="tracking-wide uppercase">{getMilestoneTitle(state.currentLevel)}</span>
+            <Sparkles className="w-3.5 h-3.5 text-purple-500" />
+          </motion.div>
+        </div>
+      )}
+
+      {/* Hard Milestone Level Banner */}
+      {!isSuperHard && isMilestone && (
+        <div className="w-full flex justify-center px-4 -mt-1 mb-1 z-10">
+          <div className="bg-gradient-to-r from-rose-500/20 via-amber-500/20 to-rose-500/20 border border-rose-400/60 backdrop-blur-md px-4 py-1 rounded-full text-[11px] font-black text-rose-600 dark:text-rose-300 flex items-center gap-1.5 shadow-[0_0_15px_rgba(244,63,94,0.25)]">
+            <Flame className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
+            <span>{getMilestoneTitle(state.currentLevel)}</span>
           </div>
         </div>
       )}
